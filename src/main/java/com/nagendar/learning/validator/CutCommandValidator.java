@@ -20,12 +20,12 @@ public class CutCommandValidator implements CommandValidator {
 		validateCommandFlags(command);
 		validateCommandOptions(command);
 		validateCommandFilePaths(command);
-		return false;
+		return true;
 	}
 
 	private void validateCommandFlags(Command command) {
 		for (String flag : command.getFlags()) {
-			if (ALLOWED_FLAGS.contains(flag)) {
+			if (!ALLOWED_FLAGS.contains(flag)) {
 				throw new IllegalFlagException(String
 					.format("Found unexpected flag %s, Expected from %s", flag, ALLOWED_FLAGS));
 			}
@@ -34,9 +34,9 @@ public class CutCommandValidator implements CommandValidator {
 
 	private void validateCommandOptions(Command command) {
 		for (String option : command.getOptions()) {
-			if (ALLOWED_OPTIONS.contains(option)) {
+			if (!ALLOWED_OPTIONS.contains(option)) {
 				throw new IllegalFlagException(String
-						.format("Found unexpected flag %s, Expected from %s", option, ALLOWED_OPTIONS));
+						.format("Found unexpected option %s, Expected from %s", option, ALLOWED_OPTIONS));
 			}
 		}
 	}

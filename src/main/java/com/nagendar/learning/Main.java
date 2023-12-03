@@ -20,7 +20,8 @@ public class Main {
 		while (true) {
 			final String input = reader.readLine();
 			Command command = new Command(input);
-			validator.validate(command);
+			boolean validation = validator.validate(command);
+			System.out.println("validation = " + validation);
 		}
 
 	}

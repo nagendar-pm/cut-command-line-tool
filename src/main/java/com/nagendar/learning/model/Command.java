@@ -43,26 +43,21 @@ public class Command {
 	}
 
 	private void tokenizeParams() {
-		List<String> rawFlags = new ArrayList<>();
+		LinkedList<String> rawFlags = new LinkedList<>();
 		Map<String, List<String>> rawOptionsAndArguments = new HashMap<>();
 		List<String> rawFilePaths = new ArrayList<>();
 
 		int index = 0;
-		boolean isArgument = false;
-		String currentOption = null;
+		boolean isArgumentCandidate = false;
 
 		while (index < this.commandParams.size()) {
 			String param = this.commandParams.get(index);
 			if (param.startsWith(COMMAND_OPTION_AND_FLAG_DELIMITER)) {
-				if (param.length() == 2) {
-					rawFlags.add(param);
-				}
-				else {
-					currentOption = param;
-					isArgument = true;
-				}
+				rawFlags.offerLast(param);
+				isArgumentCandidate = true;
 			}
-			else if (isArgument) {
+			else if (isArgumentCandidate) {
+				String currentOption = rawFlags.pollLast();
 				// TODO: add support to args of options without whitespace in b/w option and arg
 				rawOptionsAndArguments.putIfAbsent(currentOption, new ArrayList<>());
 				// the below handles the delimiter option being set to ' ' or " "
@@ -73,7 +68,7 @@ public class Command {
 					rawOptionsAndArguments.get(currentOption).add(WHITESPACE_DELIMITER);
 				}
 				else rawOptionsAndArguments.get(currentOption).add(param);
-				isArgument = false;
+				isArgumentCandidate = false;
 			}
 			else if (!param.equals(DOUBLE_QUOTE_CHARACTER)
 					&& !param.equals(SINGLE_QUOTE_CHARACTER)) {
