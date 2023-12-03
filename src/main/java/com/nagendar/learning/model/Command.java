@@ -21,7 +21,7 @@ public class Command {
 	public Command(String rawCommandString) {
 		this.rawCommandString = rawCommandString;
 		this.commandParams = Arrays.stream(rawCommandString.trim()
-				.split(WHITESPACE_DELIMITER)).toList();
+				.split(WHITESPACE_DELIMITER)).collect(Collectors.toList());
 		if (!this.commandParams.isEmpty()) {
 			String commandName = commandParams.remove(0);
 			this.setCommandType(commandName);
@@ -43,12 +43,14 @@ public class Command {
 	}
 
 	private void tokenizeParams() {
-		this.optionsAndArguments = new HashMap<>();
-		int index = 0;
-		boolean isOption = false;
-		String currentOption = null;
 		List<String> rawFlags = new ArrayList<>();
+		Map<String, List<String>> rawOptionsAndArguments = new HashMap<>();
 		List<String> rawFilePaths = new ArrayList<>();
+
+		int index = 0;
+		boolean isArgument = false;
+		String currentOption = null;
+
 		while (index < this.commandParams.size()) {
 			String param = this.commandParams.get(index);
 			if (param.startsWith(COMMAND_OPTION_AND_FLAG_DELIMITER)) {
@@ -57,19 +59,30 @@ public class Command {
 				}
 				else {
 					currentOption = param;
-					isOption = true;
+					isArgument = true;
 				}
 			}
-			else if (isOption) {
-				optionsAndArguments.put(currentOption, List.of(param));
-				isOption = false;
+			else if (isArgument) {
+				// TODO: add support to args of options without whitespace in b/w option and arg
+				rawOptionsAndArguments.putIfAbsent(currentOption, new ArrayList<>());
+				// the below handles the delimiter option being set to ' ' or " "
+				if (param.equals(DOUBLE_QUOTE_CHARACTER)) {
+					rawOptionsAndArguments.get(currentOption).add(WHITESPACE_DELIMITER);
+				}
+				else if (param.equals(SINGLE_QUOTE_CHARACTER)) {
+					rawOptionsAndArguments.get(currentOption).add(WHITESPACE_DELIMITER);
+				}
+				else rawOptionsAndArguments.get(currentOption).add(param);
+				isArgument = false;
 			}
-			else {
+			else if (!param.equals(DOUBLE_QUOTE_CHARACTER)
+					&& !param.equals(SINGLE_QUOTE_CHARACTER)) {
 				rawFilePaths.add(param.trim());
 			}
 			index++;
 		}
 		parseFlags(rawFlags);
+		parseOptions(rawOptionsAndArguments);
 		parseFilePaths(rawFilePaths);
 	}
 
@@ -82,8 +95,12 @@ public class Command {
 				.collect(Collectors.toCollection(HashSet::new));
 	}
 
-	private void parseOptions() {
-
+	private void parseOptions(Map<String, List<String>> rawOptionsAndArguments) {
+		this.optionsAndArguments = new HashMap<>();
+		for (String option : rawOptionsAndArguments.keySet()) {
+			String optionWithoutDelimiter = option.substring(1);
+			optionsAndArguments.put(optionWithoutDelimiter, rawOptionsAndArguments.get(option));
+		}
 	}
 
 	private void parseFilePaths(List<String> rawFilePaths) {
@@ -91,25 +108,31 @@ public class Command {
 
 		StringBuilder prefix = null;
 		for (String rawFilePath : rawFilePaths) {
-			if ((rawFilePath.startsWith(DOUBLE_QUOTE_CHARACTER) || rawFilePath.startsWith(SINGLE_QUOTE_CHARACTER))
-					&& (rawFilePath.endsWith(DOUBLE_QUOTE_CHARACTER) || rawFilePath.endsWith(SINGLE_QUOTE_CHARACTER))) {
+			if ((rawFilePath.startsWith(DOUBLE_QUOTE_CHARACTER)
+					|| rawFilePath.startsWith(SINGLE_QUOTE_CHARACTER))
+				&& (rawFilePath.endsWith(DOUBLE_QUOTE_CHARACTER)
+					|| rawFilePath.endsWith(SINGLE_QUOTE_CHARACTER))) {
 				prefix = new StringBuilder();
 				prefix.append(rawFilePath, 1, rawFilePath.length()-1);
 				filePathsWithSpaces.add(prefix.toString());
 				prefix = null;
 			}
-			else if (rawFilePath.startsWith(DOUBLE_QUOTE_CHARACTER) || rawFilePath.startsWith(SINGLE_QUOTE_CHARACTER)) {
+			else if (rawFilePath.startsWith(DOUBLE_QUOTE_CHARACTER)
+					|| rawFilePath.startsWith(SINGLE_QUOTE_CHARACTER)) {
 				prefix = new StringBuilder();
-				prefix.append(rawFilePath.substring(1)).append(WHITESPACE_DELIMITER);
+				prefix.append(rawFilePath.substring(1))
+						.append(WHITESPACE_DELIMITER);
 			}
-			else if ((rawFilePath.endsWith(DOUBLE_QUOTE_CHARACTER) || rawFilePath.endsWith(SINGLE_QUOTE_CHARACTER))
+			else if ((rawFilePath.endsWith(DOUBLE_QUOTE_CHARACTER)
+					|| rawFilePath.endsWith(SINGLE_QUOTE_CHARACTER))
 					&& Objects.nonNull(prefix)) {
 				prefix.append(rawFilePath, 0, rawFilePath.length()-1);
 				filePathsWithSpaces.add(prefix.toString());
 				prefix = null;
 			}
 			else if (Objects.nonNull(prefix)) {
-				prefix.append(rawFilePath).append(WHITESPACE_DELIMITER);
+				prefix.append(rawFilePath)
+						.append(WHITESPACE_DELIMITER);
 			}
 			else {
 				filePathsWithSpaces.add(rawFilePath);
@@ -123,7 +146,15 @@ public class Command {
 		return flags;
 	}
 
+	public Set<String> getOptions() {
+		return optionsAndArguments.keySet();
+	}
+
 	public Set<String> getFilePaths() {
 		return filePaths;
+	}
+
+	public String getCommandType() {
+		return commandType;
 	}
 }
