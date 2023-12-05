@@ -16,6 +16,8 @@ None
 
 ### Flags to be implemented:
 1. Iteration-1: -c, -d, -f
+   1. Support options and args separated by a whitespace
+   2. Flags only one at a time
 2. Iteration-2: -b
 3. Iteration-3: -n
 4. Iteration-4: -s (future scope for now)
