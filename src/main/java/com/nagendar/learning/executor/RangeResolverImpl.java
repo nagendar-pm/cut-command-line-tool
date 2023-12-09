@@ -31,7 +31,7 @@ public class RangeResolverImpl implements RangeResolver {
 				// TODO: throw illegal range exception here
 			}
 			String fromString = rangeNumbers[0];
-			String toString = rangeNumbers[1];
+			String toString = rangeNumbers.length > 1 ? rangeNumbers[1] : null;
 
 			Integer from = null, to = null;
 			if (Objects.nonNull(fromString) && !fromString.trim().isEmpty()) {
@@ -71,18 +71,26 @@ public class RangeResolverImpl implements RangeResolver {
 		if (Objects.isNull(range1)) return range2;
 		if (Objects.isNull(range2)) return range1;
 
-		if (range2.getFrom() <= range1.getTo()) {
-			return new Range(range1.getFrom(), range2.getTo());
+		if (range1.getFrom() > range2.getFrom()) {
+			return getOverlappedRange(range2, range1);
 		}
-		else if (range1.getFrom() <= range2.getTo()) {
-			return new Range(range2.getFrom(), range1.getTo());
+
+		if (range1.getTo() < range2.getFrom() || range2.getTo() < range1.getFrom()) {
+			return null;
 		}
-		else if (range1.getFrom() <= range2.getFrom()
+
+		if (range1.getFrom() <= range2.getFrom()
 			&& range2.getTo() <= range1.getTo()) {
-			return new Range(range1.getFrom(), range2.getTo());
+			return new Range(range1.getFrom(), range1.getTo());
 		}
 		else if (range2.getFrom() <= range1.getFrom()
 			&& range1.getTo() <= range2.getTo()) {
+			return new Range(range2.getFrom(), range2.getTo());
+		}
+		else if (range2.getFrom() <= range1.getTo()) {
+			return new Range(range1.getFrom(), range2.getTo());
+		}
+		else if (range1.getFrom() <= range2.getTo()) {
 			return new Range(range2.getFrom(), range1.getTo());
 		}
 		return null;
@@ -91,20 +99,20 @@ public class RangeResolverImpl implements RangeResolver {
 	@Override
 	public List<Range> mergeOverlappingRanges(List<Range> ranges) {
 		Collections.sort(ranges);
-		List<Range> mergedRanges = new ArrayList<>();
-		for (int i=0, index=-1; i<ranges.size(); i++) {
+		System.out.println("ranges = " + ranges);
+		LinkedList<Range> mergedRanges = new LinkedList<>();
+		for (int i=0; i<ranges.size(); i++) {
 			Range lastRange = null;
 			if (!mergedRanges.isEmpty()) {
-				lastRange = mergedRanges.get(index);
+				lastRange = mergedRanges.peekLast();
 			}
-			Range nextRange = getOverlappedRange(ranges.get(i), lastRange);
+			Range nextRange = getOverlappedRange(lastRange, ranges.get(i));
 			if (Objects.isNull(nextRange)) {
 				mergedRanges.add(ranges.get(i));
-				index++;
 			}
 			else if (!nextRange.equals(lastRange)) {
-				mergedRanges.add(nextRange);
-				index++;
+				if (!mergedRanges.isEmpty()) mergedRanges.pollLast();
+				mergedRanges.offerLast(nextRange);
 			}
 		}
 		return mergedRanges;

@@ -40,7 +40,7 @@ public class Range implements Comparable<Range> {
 
 	@Override
 	public int compareTo(Range that) {
-		return this.to == that.to ? this.from - that.from : this.to - that.to;
+		return this.from == that.from ? this.to - that.to : this.from - that.from;
 	}
 
 	@Override
@@ -54,5 +54,13 @@ public class Range implements Comparable<Range> {
 	@Override
 	public int hashCode() {
 		return Objects.hash(from, to);
+	}
+
+	@Override
+	public String toString() {
+		return "Range{" +
+				"from=" + from +
+				", to=" + to +
+				'}';
 	}
 }
