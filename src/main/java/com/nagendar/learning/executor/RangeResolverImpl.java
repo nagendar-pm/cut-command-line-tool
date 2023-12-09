@@ -24,46 +24,69 @@ public class RangeResolverImpl implements RangeResolver {
 		// where range is open-started, 0 will be used as `from`
 
 		List<Range> rangeList = new ArrayList<>();
-		Arrays.stream(rangesString.split(CommonConstants.RANGE_SEPARATOR))
-		.forEach(rangeString -> {
-			String[] rangeNumbers = rangeString.split(CommonConstants.RANGE_HYPHEN);
-			if (rangeNumbers.length > 2) {
-				throw new InvalidRangeException(
-						String.format("Range should contain only two numbers with a '-', Found: %s",
-								rangeString));
-			}
-			String fromString = rangeNumbers[0];
-			String toString = rangeNumbers.length > 1 ? rangeNumbers[1] : null;
-
-			Integer from = null, to = null;
-			if (Objects.nonNull(fromString) && !fromString.trim().isEmpty()) {
-				from = Integer.parseInt(fromString);
-			}
-			if (Objects.nonNull(toString) && !toString.trim().isEmpty()) {
-				to = Integer.parseInt(toString);
-			}
-
-			if (Objects.isNull(from)) {
-				from = 0;
-			}
-			if (Objects.isNull(to)) {
-				if (!rangeString.contains(CommonConstants.RANGE_HYPHEN)) {
-					to = from;
-				}
-				else {
-					to = Integer.MAX_VALUE;
-				}
-			}
-			if (to < from) {
-				throw new InvalidRangeException(
-						String.format("Range should contain from-to, from <= to, Found: %s",
-								rangeString));
-			}
-
-			Range newRange = new Range(from, to);
+		for (String rangeString : rangesString.split(CommonConstants.RANGE_SEPARATOR)) {
+			Range newRange = getRange(rangeString);
 			rangeList.add(newRange);
-		});
+		}
 		return rangeList;
+	}
+
+	private Range getRange(String rangeString) {
+		String[] rangeNumbers = rangeString.split(CommonConstants.RANGE_HYPHEN);
+		if (rangeNumbers.length > 2) {
+			throw new InvalidRangeException(
+					String.format("Range should contain only two numbers with a '-', Found: %s",
+							rangeString));
+		}
+		String fromString = rangeNumbers[0];
+		String toString = rangeNumbers.length > 1 ? rangeNumbers[1] : null;
+
+		Integer from = null, to = null;
+		if (Objects.nonNull(fromString) && !fromString.trim().isEmpty()) {
+			from = Integer.parseInt(fromString);
+		}
+		if (Objects.nonNull(toString) && !toString.trim().isEmpty()) {
+			to = Integer.parseInt(toString);
+		}
+
+		if (Objects.isNull(from)) {
+			from = 0;
+		}
+		if (Objects.isNull(to)) {
+			if (!rangeString.contains(CommonConstants.RANGE_HYPHEN)) {
+				to = from;
+			} else {
+				to = Integer.MAX_VALUE;
+			}
+		}
+		if (to < from) {
+			throw new InvalidRangeException(
+					String.format("Range should contain from-to, from <= to, Found: %s",
+							rangeString));
+		}
+
+		return new Range(from, to);
+	}
+
+	@Override
+	public List<Range> mergeOverlappingRanges(List<Range> ranges) {
+		Collections.sort(ranges);
+		LinkedList<Range> mergedRanges = new LinkedList<>();
+		for (int i=0; i<ranges.size(); i++) {
+			Range lastRange = null;
+			if (!mergedRanges.isEmpty()) {
+				lastRange = mergedRanges.peekLast();
+			}
+			Range nextRange = getOverlappedRange(lastRange, ranges.get(i));
+			if (Objects.isNull(nextRange)) {
+				mergedRanges.add(ranges.get(i));
+			}
+			else if (!nextRange.equals(lastRange)) {
+				if (!mergedRanges.isEmpty()) mergedRanges.pollLast();
+				mergedRanges.offerLast(nextRange);
+			}
+		}
+		return mergedRanges;
 	}
 
 	private Range getOverlappedRange(Range range1, Range range2) {
@@ -97,27 +120,5 @@ public class RangeResolverImpl implements RangeResolver {
 			return new Range(range2.getFrom(), range1.getTo());
 		}
 		return null;
-	}
-
-	@Override
-	public List<Range> mergeOverlappingRanges(List<Range> ranges) {
-		Collections.sort(ranges);
-		System.out.println("ranges = " + ranges);
-		LinkedList<Range> mergedRanges = new LinkedList<>();
-		for (int i=0; i<ranges.size(); i++) {
-			Range lastRange = null;
-			if (!mergedRanges.isEmpty()) {
-				lastRange = mergedRanges.peekLast();
-			}
-			Range nextRange = getOverlappedRange(lastRange, ranges.get(i));
-			if (Objects.isNull(nextRange)) {
-				mergedRanges.add(ranges.get(i));
-			}
-			else if (!nextRange.equals(lastRange)) {
-				if (!mergedRanges.isEmpty()) mergedRanges.pollLast();
-				mergedRanges.offerLast(nextRange);
-			}
-		}
-		return mergedRanges;
 	}
 }
