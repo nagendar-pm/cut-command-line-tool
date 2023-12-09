@@ -6,6 +6,7 @@
 package com.nagendar.learning.executor;
 
 import com.nagendar.learning.constants.CommonConstants;
+import com.nagendar.learning.exceptions.InvalidRangeException;
 import com.nagendar.learning.model.Range;
 
 import java.util.*;
@@ -27,8 +28,9 @@ public class RangeResolverImpl implements RangeResolver {
 		.forEach(rangeString -> {
 			String[] rangeNumbers = rangeString.split(CommonConstants.RANGE_HYPHEN);
 			if (rangeNumbers.length > 2) {
-				System.out.println("Throw exception here");
-				// TODO: throw illegal range exception here
+				throw new InvalidRangeException(
+						String.format("Range should contain only two numbers with a '-', Found: %s",
+								rangeString));
 			}
 			String fromString = rangeNumbers[0];
 			String toString = rangeNumbers.length > 1 ? rangeNumbers[1] : null;
@@ -53,8 +55,9 @@ public class RangeResolverImpl implements RangeResolver {
 				}
 			}
 			if (to < from) {
-				System.out.println("Throw exception here");
-				// TODO: throw illegal range exception here
+				throw new InvalidRangeException(
+						String.format("Range should contain from-to, from <= to, Found: %s",
+								rangeString));
 			}
 
 			Range newRange = new Range(from, to);
