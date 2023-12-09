@@ -32,4 +32,7 @@ public interface CommonConstants {
 			OPTION_CHARACTER_LIST,
 			OPTION_DELIMITER_SPECIFIER,
 			OPTION_FIELD_SPECIFIER);
+
+	String RANGE_HYPHEN = "-";
+	String RANGE_SEPARATOR = ",";
 }
