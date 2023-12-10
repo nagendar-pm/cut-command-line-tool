@@ -138,6 +138,10 @@ public class InputCommand {
 		this.filePaths = new HashSet<>(filePathsWithSpaces);
 	}
 
+	public String getRawCommandString() {
+		return rawCommandString;
+	}
+
 	public Set<String> getFlags() {
 		return flags;
 	}
