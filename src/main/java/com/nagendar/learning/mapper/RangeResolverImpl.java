@@ -1,9 +1,9 @@
 /*
  * @author: pagidimarri.nagendar
- * @createdAt: 09/12/23 7:48 pm
+ * @createdAt: 09/12/23 7:48pm
  */
 
-package com.nagendar.learning.executor;
+package com.nagendar.learning.mapper;
 
 import com.nagendar.learning.constants.CommonConstants;
 import com.nagendar.learning.exceptions.InvalidRangeException;

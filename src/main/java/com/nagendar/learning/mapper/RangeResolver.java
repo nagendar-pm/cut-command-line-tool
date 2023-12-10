@@ -1,4 +1,4 @@
-package com.nagendar.learning.executor;
+package com.nagendar.learning.mapper;
 /*
  * @author: pagidimarri.nagendar
  * @createdAt: 09/12/23 7:45pm

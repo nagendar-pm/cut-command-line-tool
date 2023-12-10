@@ -6,7 +6,6 @@
 package com.nagendar.learning.mapper;
 
 import com.nagendar.learning.constants.CommonConstants;
-import com.nagendar.learning.executor.RangeResolver;
 import com.nagendar.learning.model.InputCommand;
 import com.nagendar.learning.model.ProcessedCommand;
 import com.nagendar.learning.model.Range;

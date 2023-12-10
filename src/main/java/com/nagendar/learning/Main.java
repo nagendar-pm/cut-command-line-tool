@@ -7,8 +7,8 @@ package com.nagendar.learning;
 
 import com.nagendar.learning.executor.CommandExecutor;
 import com.nagendar.learning.executor.CutCommandExecutor;
-import com.nagendar.learning.executor.RangeResolver;
-import com.nagendar.learning.executor.RangeResolverImpl;
+import com.nagendar.learning.mapper.RangeResolver;
+import com.nagendar.learning.mapper.RangeResolverImpl;
 import com.nagendar.learning.io.ConsolePrinter;
 import com.nagendar.learning.io.Printer;
 import com.nagendar.learning.model.InputCommand;
