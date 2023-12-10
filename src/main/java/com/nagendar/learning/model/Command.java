@@ -93,6 +93,7 @@ public class Command {
 	private void parseOptions(Map<String, List<String>> rawOptionsAndArguments) {
 		this.optionsAndArguments = new HashMap<>();
 		for (String option : rawOptionsAndArguments.keySet()) {
+			// we can specify a list of ranges like `-f 1,2 -f 3-4`
 			String optionWithoutDelimiter = option.substring(1);
 			optionsAndArguments.put(optionWithoutDelimiter, rawOptionsAndArguments.get(option));
 		}
@@ -143,6 +144,10 @@ public class Command {
 
 	public Set<String> getOptions() {
 		return optionsAndArguments.keySet();
+	}
+
+	public List<String> getOptionArguments(String option) {
+		return optionsAndArguments.get(option);
 	}
 
 	public Set<String> getFilePaths() {

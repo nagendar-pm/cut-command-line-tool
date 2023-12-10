@@ -7,6 +7,8 @@ package com.nagendar.learning;
 
 import com.nagendar.learning.executor.CommandExecutor;
 import com.nagendar.learning.executor.CutCommandExecutor;
+import com.nagendar.learning.executor.RangeResolver;
+import com.nagendar.learning.executor.RangeResolverImpl;
 import com.nagendar.learning.io.ConsolePrinter;
 import com.nagendar.learning.io.Printer;
 import com.nagendar.learning.model.Command;
@@ -21,7 +23,8 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		CommandValidator validator = new CutCommandValidator();
 		Printer printer = new ConsolePrinter();
-		CommandExecutor executor = new CutCommandExecutor(printer);
+		RangeResolver rangeResolver = new RangeResolverImpl();
+		CommandExecutor executor = new CutCommandExecutor(printer, rangeResolver);
 		final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		while (true) {
 			final String input = reader.readLine();

@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
 
 public class CharacterCutOptionExecutor implements OptionExecutor {
 	private final Printer printer;
@@ -24,26 +23,29 @@ public class CharacterCutOptionExecutor implements OptionExecutor {
 
 	@Override
 	public void executeOption(CommandMetaInfo metaInfo) {
-		Path path = Paths.get(metaInfo.getFilePath());
-		try {
-			Optional<String> output = Files.readAllLines(path)
-					.stream()
-					.map(line -> handleLine(line, metaInfo))
-					.reduce((a, b) -> a + " " + b);
-			printer.print(String.format("%s", output));
-		} catch (IOException e) {
-			e.printStackTrace();
+		for (String filePath : metaInfo.getFilePaths()) {
+			Path path = Paths.get(filePath);
+			try {
+				StringBuilder sb = new StringBuilder();
+				for (String line : Files.readAllLines(path)) {
+					String s = handleLine(line, metaInfo);
+					sb.append(s).append("\n");
+				}
+				String output = sb.toString();
+				printer.print(String.format("%s", output));
+			} catch (IOException e) {
+				// TODO: add a new exception here
+				e.printStackTrace();
+			}
 		}
 	}
 
 	private String handleLine(String line, CommandMetaInfo metaInfo) {
-		String[] words = line.split(metaInfo.getDelimiter());
 		StringBuilder stringBuilder = new StringBuilder();
 		for (Range range : metaInfo.getRanges()) {
-			for (int i=range.getFrom(); i<=range.getTo(); i++) {
-				if (i<0 || i>words.length) break;
-				stringBuilder.append(words[i-1]);
-			}
+			int from = Math.max(1, range.getFrom()) - 1;
+			int to = Math.min(line.length(), range.getTo()) - 1;
+			stringBuilder.append(line, from, to + 1);
 		}
 		return stringBuilder.toString();
 	}

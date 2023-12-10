@@ -9,24 +9,25 @@ import java.util.List;
 import java.util.Set;
 
 public class CommandMetaInfo {
-	private Set<Character> flags;
+	private Set<String> flags;
 	private String delimiter;
-	private Character option;
+	private String option;
 	private List<Range> ranges;
-//	private Set<Integer> indices;
-	private String filePath;
+	private Set<String> filePath;
 
-	public CommandMetaInfo(Set<Character> flags, String delimiter, String filePath) {
+	public CommandMetaInfo() {}
+
+	public CommandMetaInfo(Set<String> flags, String delimiter, Set<String> filePath) {
 		this.flags = flags;
 		this.delimiter = delimiter;
 		this.filePath = filePath;
 	}
 
-	public Set<Character> getFlags() {
+	public Set<String> getFlags() {
 		return flags;
 	}
 
-	public void setFlags(Set<Character> flags) {
+	public void setFlags(Set<String> flags) {
 		this.flags = flags;
 	}
 
@@ -38,11 +39,11 @@ public class CommandMetaInfo {
 		this.delimiter = delimiter;
 	}
 
-	public Character getOption() {
+	public String getOption() {
 		return option;
 	}
 
-	public void setOption(Character option) {
+	public void setOption(String option) {
 		this.option = option;
 	}
 
@@ -54,19 +55,11 @@ public class CommandMetaInfo {
 		this.ranges = ranges;
 	}
 
-//	public Set<Integer> getIndices() {
-//		return indices;
-//	}
-//
-//	public void setIndices(Set<Integer> indices) {
-//		this.indices = indices;
-//	}
-
-	public String getFilePath() {
+	public Set<String> getFilePaths() {
 		return filePath;
 	}
 
-	public void setFilePath(String filePath) {
+	public void setFilePaths(Set<String> filePath) {
 		this.filePath = filePath;
 	}
 }
