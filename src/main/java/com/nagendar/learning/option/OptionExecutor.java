@@ -5,8 +5,8 @@
 
 package com.nagendar.learning.option;
 
-import com.nagendar.learning.model.CommandMetaInfo;
+import com.nagendar.learning.model.ProcessedCommand;
 
 public interface OptionExecutor {
-	void executeOption(CommandMetaInfo commandMetaInfo);
+	void executeOption(ProcessedCommand processedCommand);
 }

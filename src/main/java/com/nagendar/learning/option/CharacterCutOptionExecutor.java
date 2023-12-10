@@ -6,7 +6,7 @@
 package com.nagendar.learning.option;
 
 import com.nagendar.learning.io.Printer;
-import com.nagendar.learning.model.CommandMetaInfo;
+import com.nagendar.learning.model.ProcessedCommand;
 import com.nagendar.learning.model.Range;
 
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class CharacterCutOptionExecutor implements OptionExecutor {
 	}
 
 	@Override
-	public void executeOption(CommandMetaInfo metaInfo) {
+	public void executeOption(ProcessedCommand metaInfo) {
 		for (String filePath : metaInfo.getFilePaths()) {
 			Path path = Paths.get(filePath);
 			try {
@@ -34,13 +34,12 @@ public class CharacterCutOptionExecutor implements OptionExecutor {
 				String output = sb.toString();
 				printer.print(String.format("%s", output));
 			} catch (IOException e) {
-				// TODO: add a new exception here
 				e.printStackTrace();
 			}
 		}
 	}
 
-	private String handleLine(String line, CommandMetaInfo metaInfo) {
+	private String handleLine(String line, ProcessedCommand metaInfo) {
 		StringBuilder stringBuilder = new StringBuilder();
 		for (Range range : metaInfo.getRanges()) {
 			int from = Math.max(1, range.getFrom()) - 1;

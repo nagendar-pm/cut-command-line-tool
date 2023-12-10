@@ -7,7 +7,7 @@ package com.nagendar.learning.validator;
 
 import com.nagendar.learning.exceptions.FileDoesNotExistsException;
 import com.nagendar.learning.exceptions.IllegalFlagException;
-import com.nagendar.learning.model.Command;
+import com.nagendar.learning.model.InputCommand;
 import com.nagendar.learning.utils.FileUtils;
 
 import static com.nagendar.learning.constants.CommonConstants.ALLOWED_FLAGS;
@@ -15,7 +15,7 @@ import static com.nagendar.learning.constants.CommonConstants.ALLOWED_OPTIONS;
 
 public class CutCommandValidator implements CommandValidator {
 	@Override
-	public boolean validate(Command command) {
+	public boolean validate(InputCommand command) {
 		command.parseParams();
 		validateCommandFlags(command);
 		validateCommandOptions(command);
@@ -23,7 +23,7 @@ public class CutCommandValidator implements CommandValidator {
 		return true;
 	}
 
-	private void validateCommandFlags(Command command) {
+	private void validateCommandFlags(InputCommand command) {
 		for (String flag : command.getFlags()) {
 			if (!ALLOWED_FLAGS.contains(flag)) {
 				throw new IllegalFlagException(String
@@ -32,7 +32,7 @@ public class CutCommandValidator implements CommandValidator {
 		}
 	}
 
-	private void validateCommandOptions(Command command) {
+	private void validateCommandOptions(InputCommand command) {
 		for (String option : command.getOptions()) {
 			if (!ALLOWED_OPTIONS.contains(option)) {
 				throw new IllegalFlagException(String
@@ -41,7 +41,7 @@ public class CutCommandValidator implements CommandValidator {
 		}
 	}
 
-	private void validateCommandFilePaths(Command command) {
+	private void validateCommandFilePaths(InputCommand command) {
 		for (String filePath : command.getFilePaths()) {
 			filePath = FileUtils.toAbsolutePath(filePath);
 			if (!FileUtils.checkIfFileExists(filePath)) {

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 import static com.nagendar.learning.constants.CommonConstants.*;
 
-public class Command {
+public class InputCommand {
 	private final String rawCommandString;
 	private String commandType;
 	private final List<String> commandParams;
@@ -18,7 +18,7 @@ public class Command {
 	private Map<String, List<String>> optionsAndArguments;
 	private Set<String> filePaths;
 
-	public Command(String rawCommandString) {
+	public InputCommand(String rawCommandString) {
 		this.rawCommandString = rawCommandString;
 		this.commandParams = Arrays.stream(rawCommandString.trim()
 				.split(WHITESPACE_DELIMITER)).collect(Collectors.toList());

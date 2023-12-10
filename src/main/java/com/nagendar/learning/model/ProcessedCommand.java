@@ -8,16 +8,16 @@ package com.nagendar.learning.model;
 import java.util.List;
 import java.util.Set;
 
-public class CommandMetaInfo {
+public class ProcessedCommand {
 	private Set<String> flags;
 	private String delimiter;
 	private String option;
 	private List<Range> ranges;
 	private Set<String> filePath;
 
-	public CommandMetaInfo() {}
+	public ProcessedCommand() {}
 
-	public CommandMetaInfo(Set<String> flags, String delimiter, Set<String> filePath) {
+	public ProcessedCommand(Set<String> flags, String delimiter, Set<String> filePath) {
 		this.flags = flags;
 		this.delimiter = delimiter;
 		this.filePath = filePath;

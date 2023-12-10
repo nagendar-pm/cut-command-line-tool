@@ -4,8 +4,8 @@ package com.nagendar.learning.validator;
  * @createdAt: 03/12/23 11:05 am
  */
 
-import com.nagendar.learning.model.Command;
+import com.nagendar.learning.model.InputCommand;
 
 public interface CommandValidator {
-	boolean validate(Command command);
+	boolean validate(InputCommand command);
 }
