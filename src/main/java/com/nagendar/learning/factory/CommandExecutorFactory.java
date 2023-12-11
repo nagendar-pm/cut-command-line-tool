@@ -11,6 +11,7 @@ import com.nagendar.learning.executor.CutCommandExecutor;
 import com.nagendar.learning.executor.ExitCommandExecutor;
 import com.nagendar.learning.executor.NonCutCommandExecutor;
 import com.nagendar.learning.io.Printer;
+import com.nagendar.learning.model.Command;
 import com.nagendar.learning.model.InputCommand;
 
 import java.util.HashMap;
@@ -27,7 +28,7 @@ public class CommandExecutorFactory {
 		commandExecutorMap.put(CommonConstants.NON_CUT_COMMAND, new NonCutCommandExecutor(consolePrinter, filePrinter));
 	}
 
-	public CommandExecutor getCommandExecutor(InputCommand command) {
+	public CommandExecutor getCommandExecutor(Command command) {
 		CommandExecutor commandExecutor = commandExecutorMap.get(command.getCommandType());
 		if (Objects.isNull(commandExecutor)) {
 			commandExecutor = commandExecutorMap.get(CommonConstants.NON_CUT_COMMAND);

@@ -7,6 +7,7 @@ package com.nagendar.learning.validator;
 
 import com.nagendar.learning.exceptions.FileDoesNotExistsException;
 import com.nagendar.learning.exceptions.IllegalFlagException;
+import com.nagendar.learning.model.Command;
 import com.nagendar.learning.model.InputCommand;
 import com.nagendar.learning.utils.FileUtils;
 
@@ -15,11 +16,12 @@ import static com.nagendar.learning.constants.CommonConstants.ALLOWED_OPTIONS;
 
 public class CutCommandValidator implements CommandValidator {
 	@Override
-	public boolean validate(InputCommand command) {
-		command.parseParams();
-		validateCommandFlags(command);
-		validateCommandOptions(command);
-		validateCommandFilePaths(command);
+	public boolean validate(Command command) {
+		InputCommand inputCommand = (InputCommand) command;
+		inputCommand.parseParams();
+		validateCommandFlags(inputCommand);
+		validateCommandOptions(inputCommand);
+		validateCommandFilePaths(inputCommand);
 		return true;
 	}
 

@@ -5,11 +5,11 @@
 
 package com.nagendar.learning.validator;
 
-import com.nagendar.learning.model.InputCommand;
+import com.nagendar.learning.model.Command;
 
 public class NonCutCommandValidator implements CommandValidator {
 	@Override
-	public boolean validate(InputCommand command) {
+	public boolean validate(Command command) {
 		return true;
 	}
 }

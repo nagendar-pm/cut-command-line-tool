@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import static com.nagendar.learning.constants.CommonConstants.*;
 
 public class InputCommand extends Command{
-	private String commandType;
 	private final List<String> commandParams;
 	private Set<String> flags;
 	private Map<String, List<String>> optionsAndArguments;
@@ -23,17 +22,7 @@ public class InputCommand extends Command{
 				.split(WHITESPACE_DELIMITER)).collect(Collectors.toList());
 		if (!this.commandParams.isEmpty()) {
 			String commandName = commandParams.remove(0);
-			this.setCommandType(commandName);
-		}
-	}
-
-	private void setCommandType(String commandType) {
-		if (!(commandType.equals(CUT_COMMAND)
-				|| commandType.equals(EXIT_COMMAND))) {
-			this.commandType = NON_CUT_COMMAND;
-		}
-		else {
-			this.commandType = commandType;
+			setCommandType(commandName);
 		}
 	}
 
@@ -153,7 +142,4 @@ public class InputCommand extends Command{
 		return filePaths;
 	}
 
-	public String getCommandType() {
-		return commandType;
-	}
 }

@@ -6,6 +6,7 @@
 package com.nagendar.learning.factory;
 
 import com.nagendar.learning.constants.CommonConstants;
+import com.nagendar.learning.model.Command;
 import com.nagendar.learning.model.InputCommand;
 import com.nagendar.learning.validator.CommandValidator;
 import com.nagendar.learning.validator.CutCommandValidator;
@@ -26,7 +27,7 @@ public class CommandValidatorFactory {
 		commandValidatorMap.put(CommonConstants.NON_CUT_COMMAND, new NonCutCommandValidator());
 	}
 
-	public CommandValidator getCommandValidator(InputCommand command) {
+	public CommandValidator getCommandValidator(Command command) {
 		CommandValidator commandValidator = commandValidatorMap.get(command.getCommandType());
 		if (Objects.isNull(commandValidator)) {
 			commandValidator = commandValidatorMap.get(CommonConstants.NON_CUT_COMMAND);

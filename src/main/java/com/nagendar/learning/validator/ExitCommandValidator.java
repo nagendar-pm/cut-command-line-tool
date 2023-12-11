@@ -6,11 +6,11 @@
 package com.nagendar.learning.validator;
 
 import com.nagendar.learning.constants.CommonConstants;
-import com.nagendar.learning.model.InputCommand;
+import com.nagendar.learning.model.Command;
 
 public class ExitCommandValidator implements CommandValidator {
 	@Override
-	public boolean validate(InputCommand command) {
+	public boolean validate(Command command) {
 		return command.getCommandType().equals(CommonConstants.EXIT_COMMAND);
 	}
 }
