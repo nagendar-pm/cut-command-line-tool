@@ -6,6 +6,7 @@
 package com.nagendar.learning.executor;
 
 import com.nagendar.learning.io.Printer;
+import com.nagendar.learning.model.Command;
 import com.nagendar.learning.model.InputCommand;
 
 public class ExitCommandExecutor implements CommandExecutor {
@@ -16,7 +17,7 @@ public class ExitCommandExecutor implements CommandExecutor {
 	}
 
 	@Override
-	public void execute(InputCommand command) {
+	public void execute(Command command) {
 		printer.print("Shutting down...");
 		System.exit(0);
 	}

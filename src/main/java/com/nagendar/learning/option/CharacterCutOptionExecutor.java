@@ -6,6 +6,7 @@
 package com.nagendar.learning.option;
 
 import com.nagendar.learning.io.Printer;
+import com.nagendar.learning.model.Command;
 import com.nagendar.learning.model.ProcessedCommand;
 import com.nagendar.learning.model.Range;
 
@@ -22,7 +23,8 @@ public class CharacterCutOptionExecutor implements OptionExecutor {
 	}
 
 	@Override
-	public void executeOption(ProcessedCommand metaInfo) {
+	public void executeOption(Command command) {
+		ProcessedCommand metaInfo = (ProcessedCommand) command;
 		for (String filePath : metaInfo.getFilePaths()) {
 			Path path = Paths.get(filePath);
 			try {

@@ -6,7 +6,7 @@
 package com.nagendar.learning.executor;
 
 import com.nagendar.learning.io.Printer;
-import com.nagendar.learning.model.ProcessedCommand;
+import com.nagendar.learning.model.Command;
 import com.nagendar.learning.option.CharacterCutOptionExecutor;
 
 public class CutCommandExecutor implements CommandExecutor {
@@ -17,7 +17,7 @@ public class CutCommandExecutor implements CommandExecutor {
 	}
 
 	@Override
-	public void execute(ProcessedCommand command) {
+	public void execute(Command command) {
 		CharacterCutOptionExecutor executor = new CharacterCutOptionExecutor(printer);
 		executor.executeOption(command);
 	}

@@ -8,16 +8,19 @@ package com.nagendar.learning.model;
 import java.util.List;
 import java.util.Set;
 
-public class ProcessedCommand {
+public class ProcessedCommand extends Command{
 	private Set<String> flags;
 	private String delimiter;
 	private String option;
 	private List<Range> ranges;
 	private Set<String> filePath;
 
-	public ProcessedCommand() {}
+	public ProcessedCommand() {
+		super();
+	}
 
 	public ProcessedCommand(Set<String> flags, String delimiter, Set<String> filePath) {
+		super();
 		this.flags = flags;
 		this.delimiter = delimiter;
 		this.filePath = filePath;

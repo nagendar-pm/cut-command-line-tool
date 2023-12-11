@@ -5,11 +5,8 @@
 
 package com.nagendar.learning.executor;
 
-import com.nagendar.learning.model.InputCommand;
-import com.nagendar.learning.model.ProcessedCommand;
+import com.nagendar.learning.model.Command;
 
 public interface CommandExecutor {
-	default void execute(ProcessedCommand command){}
-
-	default void execute(InputCommand command){}
+	default void execute(Command command){}
 }

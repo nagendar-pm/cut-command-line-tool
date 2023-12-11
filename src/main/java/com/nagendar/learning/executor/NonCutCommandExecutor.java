@@ -7,6 +7,7 @@ package com.nagendar.learning.executor;
 
 import com.nagendar.learning.exceptions.UnknownCommandException;
 import com.nagendar.learning.io.Printer;
+import com.nagendar.learning.model.Command;
 import com.nagendar.learning.model.InputCommand;
 
 import java.io.BufferedReader;
@@ -27,7 +28,7 @@ public class NonCutCommandExecutor implements CommandExecutor {
 	}
 
 	@Override
-	public void execute(InputCommand command) {
+	public void execute(Command command) {
 		String commandStr = command.getRawCommandString();
 		consolePrinter.print(String.format("Executing the command `%s`...", commandStr));
 		List<String> outputLines = new LinkedList<>();
