@@ -39,6 +39,7 @@ public class Main {
 		final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		while (true) {
 			final String input = reader.readLine();
+			System.out.println("input = " + input);
 			commandModeFactory.getCommandMode(input).process(input);
 		}
 	}

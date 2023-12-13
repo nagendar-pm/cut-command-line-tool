@@ -18,6 +18,7 @@ public class SingleCommandMode implements CommandMode {
 	@Override
 	public void process(String input) {
 		Command command = new InputCommand(input);
+		command.setIsTerminal(true);
 		commandProcessorService.processCommand(command);
 	}
 }
