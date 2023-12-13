@@ -23,7 +23,7 @@ public class CommandExecutorFactory {
 
 	public CommandExecutorFactory(Printer consolePrinter, Printer filePrinter) {
 		this.commandExecutorMap = new HashMap<>();
-		commandExecutorMap.put(CommonConstants.CUT_COMMAND, new CutCommandExecutor(consolePrinter));
+		commandExecutorMap.put(CommonConstants.CUT_COMMAND, new CutCommandExecutor(consolePrinter, filePrinter));
 		commandExecutorMap.put(CommonConstants.EXIT_COMMAND, new ExitCommandExecutor(consolePrinter));
 		commandExecutorMap.put(CommonConstants.NON_CUT_COMMAND, new NonCutCommandExecutor(consolePrinter, filePrinter));
 	}

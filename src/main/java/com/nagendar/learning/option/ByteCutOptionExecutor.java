@@ -1,6 +1,6 @@
 /*
  * @author: pagidimarri.nagendar
- * @createdAt: 05/12/23 8:18 pm
+ * @createdAt: 11/12/23 6:55 pm
  */
 
 package com.nagendar.learning.option;
@@ -11,15 +11,17 @@ import com.nagendar.learning.model.ProcessedCommand;
 import com.nagendar.learning.model.Range;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
-public class CharacterCutOptionExecutor implements OptionExecutor {
+public class ByteCutOptionExecutor implements OptionExecutor {
 	private final Printer consolePrinter;
 	private final Printer filePrinter;
 
-	public CharacterCutOptionExecutor(Printer consolePrinter, Printer filePrinter) {
+	public ByteCutOptionExecutor(Printer consolePrinter, Printer filePrinter) {
 		this.consolePrinter = consolePrinter;
 		this.filePrinter = filePrinter;
 	}
@@ -53,10 +55,13 @@ public class CharacterCutOptionExecutor implements OptionExecutor {
 
 	private String handleLine(String line, ProcessedCommand processedCommand) {
 		StringBuilder stringBuilder = new StringBuilder();
+		// TODO: learn about the charsets and their usage
+		byte[] bytes = line.getBytes(StandardCharsets.UTF_8);
 		for (Range range : processedCommand.getRanges()) {
 			int from = Math.max(1, range.getFrom()) - 1;
 			int to = Math.min(line.length(), range.getTo()) - 1;
-			stringBuilder.append(line, from, to + 1);
+			byte[] bytesOfRange = Arrays.copyOfRange(bytes, from, to + 1);
+			stringBuilder.append(Arrays.toString(bytesOfRange));
 		}
 		return stringBuilder.toString();
 	}

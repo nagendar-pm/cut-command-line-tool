@@ -13,17 +13,17 @@ public class ProcessedCommand extends Command{
 	private String delimiter;
 	private String option;
 	private List<Range> ranges;
-	private Set<String> filePath;
+	private Set<String> filePaths;
 
 	public ProcessedCommand() {
 		super();
 	}
 
-	public ProcessedCommand(Set<String> flags, String delimiter, Set<String> filePath) {
+	public ProcessedCommand(Set<String> flags, String delimiter, Set<String> filePaths) {
 		super();
 		this.flags = flags;
 		this.delimiter = delimiter;
-		this.filePath = filePath;
+		this.filePaths = filePaths;
 	}
 
 	public Set<String> getFlags() {
@@ -59,10 +59,10 @@ public class ProcessedCommand extends Command{
 	}
 
 	public Set<String> getFilePaths() {
-		return filePath;
+		return filePaths;
 	}
 
-	public void setFilePaths(Set<String> filePath) {
-		this.filePath = filePath;
+	public void setFilePaths(Set<String> filePaths) {
+		this.filePaths = filePaths;
 	}
 }

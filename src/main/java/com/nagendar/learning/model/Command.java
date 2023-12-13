@@ -10,6 +10,7 @@ import static com.nagendar.learning.constants.CommonConstants.*;
 public abstract class Command {
 	private String rawCommandString;
 	private String commandType;
+	private boolean isTerminal;
 
 	protected Command(String rawCommandString) {
 		this.rawCommandString = rawCommandString;
@@ -33,5 +34,13 @@ public abstract class Command {
 
 	public String getCommandType() {
 		return commandType;
+	}
+
+	public boolean getIsTerminal() {
+		return isTerminal;
+	}
+
+	public void setIsTerminal(boolean isTerminal) {
+		this.isTerminal = isTerminal;
 	}
 }

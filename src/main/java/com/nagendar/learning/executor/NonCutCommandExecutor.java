@@ -41,8 +41,14 @@ public class NonCutCommandExecutor implements CommandExecutor {
 			while ((line = reader.readLine()) != null) {
 				outputLines.add(line);
 			}
-			filePrinter.print(outputLines);
-			consolePrinter.print(String.format("Output: %s", outputLines));
+			// TODO: the below can be moved to a separate factory
+			if (command.getIsTerminal()) {
+				consolePrinter.print(outputLines);
+			}
+			else {
+				filePrinter.print(outputLines);
+				consolePrinter.print(String.format("Output: %s", outputLines));
+			}
 		} catch (IOException e) {
 			throw new UnknownCommandException(String.format("Unknown Shell command triggered: %s", command));
 		}
