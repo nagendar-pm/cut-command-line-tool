@@ -8,6 +8,7 @@ package com.nagendar.learning.factory;
 import com.nagendar.learning.constants.CommonConstants;
 import com.nagendar.learning.option.ByteCutOptionExecutor;
 import com.nagendar.learning.option.CharacterCutOptionExecutor;
+import com.nagendar.learning.option.FieldCutOptionExecutor;
 import com.nagendar.learning.option.OptionExecutor;
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class OptionExecutorFactory {
 		optionExecutorMap = new HashMap<>();
 		optionExecutorMap.put(CommonConstants.OPTION_BYTE_LIST, new ByteCutOptionExecutor(printerFactory));
 		optionExecutorMap.put(CommonConstants.OPTION_CHARACTER_LIST, new CharacterCutOptionExecutor(printerFactory));
-//		optionExecutorMap.put(CommonConstants.OPTION_FIELD_SPECIFIER, new CharacterCountOptionExecutor(printer));
+		optionExecutorMap.put(CommonConstants.OPTION_FIELD_SPECIFIER, new FieldCutOptionExecutor(printerFactory));
 	}
 
 	public OptionExecutor getOptionExecutor(String option) {

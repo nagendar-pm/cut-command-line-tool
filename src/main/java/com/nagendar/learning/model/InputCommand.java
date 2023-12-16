@@ -82,8 +82,8 @@ public class InputCommand extends Command{
 		this.optionsAndArguments = new HashMap<>();
 		for (String option : rawOptionsAndArguments.keySet()) {
 			// we can specify a list of ranges like `-f 1,2 -f 3-4`
-			String optionWithoutDelimiter = option.substring(1);
-			optionsAndArguments.put(optionWithoutDelimiter, rawOptionsAndArguments.get(option));
+			String optionWithoutHyphen = option.substring(1);
+			optionsAndArguments.put(optionWithoutHyphen, rawOptionsAndArguments.get(option));
 		}
 	}
 
