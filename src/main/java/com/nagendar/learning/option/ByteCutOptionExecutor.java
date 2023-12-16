@@ -59,7 +59,7 @@ public class ByteCutOptionExecutor implements OptionExecutor {
 		byte[] bytes = line.getBytes(StandardCharsets.UTF_8);
 		for (Range range : processedCommand.getRanges()) {
 			int from = Math.max(1, range.getFrom()) - 1;
-			int to = Math.min(line.length(), range.getTo()) - 1;
+			int to = Math.min(bytes.length, range.getTo()) - 1;
 			byte[] bytesOfRange = Arrays.copyOfRange(bytes, from, to + 1);
 			stringBuilder.append(new String(bytesOfRange));
 		}
