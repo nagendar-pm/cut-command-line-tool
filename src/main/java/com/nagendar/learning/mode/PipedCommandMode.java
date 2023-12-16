@@ -37,7 +37,7 @@ public class PipedCommandMode implements CommandMode {
 			String commandStr = commands.poll();
 			commandStr = buildCommandWithFilepath(commandStr, isFirstCommand);
 			Command command = new InputCommand(commandStr);
-			if (size == 1) command.setIsTerminal(true);
+			if (size == 0) command.setIsTerminal(true);
 			commandProcessorService.processCommand(command);
 			isFirstCommand = false;
 		}

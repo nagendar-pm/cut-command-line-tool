@@ -38,6 +38,7 @@ public class InputCommandToProcessedCommandMapper {
 		List<Range> optimizedRanges = rangeResolver.mergeOverlappingRanges(ranges);
 		processedCommand.setRanges(optimizedRanges);
 		processedCommand.setFilePaths(inputCommand.getFilePaths());
+		processedCommand.setIsTerminal(inputCommand.getIsTerminal());
 		return processedCommand;
 	}
 }

@@ -45,7 +45,7 @@ public class ByteCutOptionExecutor implements OptionExecutor {
 					String s = handleLine(line, processedCommand);
 					sb.append(s).append("\n");
 				}
-				String output = sb.toString();
+				String output = sb.deleteCharAt(sb.length()-1).toString();
 				printer.print(String.format("%s", output));
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -61,7 +61,7 @@ public class ByteCutOptionExecutor implements OptionExecutor {
 			int from = Math.max(1, range.getFrom()) - 1;
 			int to = Math.min(line.length(), range.getTo()) - 1;
 			byte[] bytesOfRange = Arrays.copyOfRange(bytes, from, to + 1);
-			stringBuilder.append(Arrays.toString(bytesOfRange));
+			stringBuilder.append(new String(bytesOfRange));
 		}
 		return stringBuilder.toString();
 	}

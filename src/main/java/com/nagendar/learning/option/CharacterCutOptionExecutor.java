@@ -43,7 +43,7 @@ public class CharacterCutOptionExecutor implements OptionExecutor {
 					String s = handleLine(line, processedCommand);
 					sb.append(s).append("\n");
 				}
-				String output = sb.toString();
+				String output = sb.deleteCharAt(sb.length()-1).toString();
 				printer.print(String.format("%s", output));
 			} catch (IOException e) {
 				e.printStackTrace();
