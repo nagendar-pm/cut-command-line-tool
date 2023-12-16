@@ -5,6 +5,7 @@
 
 package com.nagendar.learning.option;
 
+import com.nagendar.learning.factory.PrinterFactory;
 import com.nagendar.learning.io.Printer;
 import com.nagendar.learning.model.Command;
 import com.nagendar.learning.model.ProcessedCommand;
@@ -16,26 +17,20 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class CharacterCutOptionExecutor implements OptionExecutor {
-	private final Printer consolePrinter;
-	private final Printer filePrinter;
+	private final PrinterFactory printerFactory;
 
-	public CharacterCutOptionExecutor(Printer consolePrinter, Printer filePrinter) {
-		this.consolePrinter = consolePrinter;
-		this.filePrinter = filePrinter;
+	public CharacterCutOptionExecutor(PrinterFactory printerFactory) {
+		this.printerFactory = printerFactory;
 	}
 
 	@Override
 	public void executeOption(Command command) {
 		ProcessedCommand processedCommand = (ProcessedCommand) command;
-		Printer printer;
-		if (command.getIsTerminal()) {
-			printer = consolePrinter;
-		}
-		else {
-			printer = filePrinter;
-		}
+		Printer printer = printerFactory.getPrinter(command.getIsTerminal());
+		boolean isFirstFile = true;
 		for (String filePath : processedCommand.getFilePaths()) {
-			printer.print(String.format("Executing file: %s", filePath));
+			printerFactory.getConsolePrinter().print(String.format("Executing file: %s", filePath),
+					false);
 			Path path = Paths.get(filePath);
 			try {
 				StringBuilder sb = new StringBuilder();
@@ -44,7 +39,8 @@ public class CharacterCutOptionExecutor implements OptionExecutor {
 					sb.append(s).append("\n");
 				}
 				String output = sb.deleteCharAt(sb.length()-1).toString();
-				printer.print(String.format("%s", output));
+				printer.print(String.format("%s", output), !isFirstFile);
+				isFirstFile = false;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

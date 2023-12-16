@@ -9,12 +9,12 @@ import java.util.List;
 
 public class ConsolePrinter implements Printer{
 	@Override
-	public void print(String message) {
+	public void print(String message, boolean isAppend) {
 		System.out.println(message);
 	}
 
 	@Override
-	public void print(List<String> messages) {
+	public void print(List<String> messages, boolean isAppend) {
 		StringBuilder stringBuilder = new StringBuilder();
 		for (String message : messages) {
 			stringBuilder.append(message);

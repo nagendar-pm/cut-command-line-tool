@@ -5,13 +5,7 @@ package com.nagendar.learning;
  * @createdAt: 02/12/23 11:13 am
  */
 
-import com.nagendar.learning.factory.CommandExecutorFactory;
-import com.nagendar.learning.factory.CommandModeFactory;
-import com.nagendar.learning.factory.CommandProcessorFactory;
-import com.nagendar.learning.factory.CommandValidatorFactory;
-import com.nagendar.learning.io.ConsolePrinter;
-import com.nagendar.learning.io.FilePrinter;
-import com.nagendar.learning.io.Printer;
+import com.nagendar.learning.factory.*;
 import com.nagendar.learning.mapper.InputCommandToProcessedCommandMapper;
 import com.nagendar.learning.mapper.RangeResolver;
 import com.nagendar.learning.mapper.RangeResolverImpl;
@@ -24,14 +18,13 @@ import java.io.InputStreamReader;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
-		Printer consolePrinter = new ConsolePrinter();
-		Printer filePrinter = new FilePrinter();
+		PrinterFactory printerFactory = new PrinterFactory();
 		RangeResolver rangeResolver = new RangeResolverImpl();
 		InputCommandToProcessedCommandMapper commandToProcessedCommandMapper =
 				new InputCommandToProcessedCommandMapper(rangeResolver);
 		CommandValidatorFactory commandValidatorFactory = new CommandValidatorFactory();
 		CommandProcessorFactory commandProcessorFactory = new CommandProcessorFactory(commandToProcessedCommandMapper);
-		CommandExecutorFactory commandExecutorFactory = new CommandExecutorFactory(consolePrinter, filePrinter);
+		CommandExecutorFactory commandExecutorFactory = new CommandExecutorFactory(printerFactory);
 		CommandProcessorService commandProcessorService =
 				new CommandProcessorServiceImpl(commandValidatorFactory,
 						commandProcessorFactory, commandExecutorFactory);

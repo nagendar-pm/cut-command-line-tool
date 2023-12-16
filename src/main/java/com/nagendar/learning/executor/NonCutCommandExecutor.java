@@ -6,9 +6,9 @@
 package com.nagendar.learning.executor;
 
 import com.nagendar.learning.exceptions.UnknownCommandException;
+import com.nagendar.learning.factory.PrinterFactory;
 import com.nagendar.learning.io.Printer;
 import com.nagendar.learning.model.Command;
-import com.nagendar.learning.model.InputCommand;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,19 +19,19 @@ import java.util.List;
 import static com.nagendar.learning.constants.CommonConstants.WHITESPACE_DELIMITER;
 
 public class NonCutCommandExecutor implements CommandExecutor {
-	private final Printer consolePrinter;
-	private final Printer filePrinter;
+	private final PrinterFactory printerFactory;
 
-	public NonCutCommandExecutor(Printer consolePrinter, Printer filePrinter) {
-		this.consolePrinter = consolePrinter;
-		this.filePrinter = filePrinter;
+	public NonCutCommandExecutor(PrinterFactory printerFactory) {
+		this.printerFactory = printerFactory;
 	}
 
 	@Override
 	public void execute(Command command) {
 		String commandStr = command.getRawCommandString();
-		consolePrinter.print(String.format("Executing the command `%s`...", commandStr));
+		printerFactory.getConsolePrinter()
+				.print(String.format("Executing the command `%s`...", commandStr), false);
 		List<String> outputLines = new LinkedList<>();
+		Printer printer = printerFactory.getPrinter(command.getIsTerminal());
 		try {
 			Process process = Runtime.getRuntime()
 					.exec(commandStr.split(WHITESPACE_DELIMITER));
@@ -41,14 +41,9 @@ public class NonCutCommandExecutor implements CommandExecutor {
 			while ((line = reader.readLine()) != null) {
 				outputLines.add(line);
 			}
-			// TODO: the below can be moved to a separate factory
-			if (command.getIsTerminal()) {
-				consolePrinter.print(outputLines);
-			}
-			else {
-				filePrinter.print(outputLines);
-				consolePrinter.print(String.format("Output: %s", outputLines));
-			}
+			printer.print(outputLines, false);
+			printerFactory.getConsolePrinter()
+					.print(String.format("Output: %s", outputLines), false);
 		} catch (IOException e) {
 			throw new UnknownCommandException(String.format("Unknown Shell command triggered: %s", command));
 		}

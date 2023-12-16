@@ -19,6 +19,10 @@ public class ProcessedCommand extends Command{
 		super();
 	}
 
+	public ProcessedCommand(String rawCommandString) {
+		super(rawCommandString);
+	}
+
 	public ProcessedCommand(Set<String> flags, String delimiter, Set<String> filePaths) {
 		super();
 		this.flags = flags;

@@ -7,7 +7,7 @@ package com.nagendar.learning.io;
 import java.util.List;
 
 public interface Printer {
-	default void print(String message) {}
+	default void print(String message, boolean isAppend) {}
 
-	default void print(List<String> message) {}
+	default void print(List<String> message, boolean isAppend) {}
 }

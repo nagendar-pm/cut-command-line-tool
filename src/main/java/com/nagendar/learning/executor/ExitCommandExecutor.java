@@ -5,20 +5,19 @@
 
 package com.nagendar.learning.executor;
 
-import com.nagendar.learning.io.Printer;
+import com.nagendar.learning.factory.PrinterFactory;
 import com.nagendar.learning.model.Command;
-import com.nagendar.learning.model.InputCommand;
 
 public class ExitCommandExecutor implements CommandExecutor {
-	private final Printer printer;
+	private final PrinterFactory printerFactory;
 
-	public ExitCommandExecutor(Printer printer) {
-		this.printer = printer;
+	public ExitCommandExecutor(PrinterFactory printerFactory) {
+		this.printerFactory = printerFactory;
 	}
 
 	@Override
 	public void execute(Command command) {
-		printer.print("Shutting down...");
+		printerFactory.getPrinter(command.getIsTerminal()).print("Shutting down...", false);
 		System.exit(0);
 	}
 }

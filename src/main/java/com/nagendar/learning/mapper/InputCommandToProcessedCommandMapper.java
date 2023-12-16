@@ -21,7 +21,7 @@ public class InputCommandToProcessedCommandMapper {
 
 	public ProcessedCommand map(InputCommand inputCommand) {
 		String rangeString = null;
-		ProcessedCommand processedCommand = new ProcessedCommand();
+		ProcessedCommand processedCommand = new ProcessedCommand(inputCommand.getRawCommandString());
 		for (String option : inputCommand.getOptions()) {
 			List<String> arguments = inputCommand.getOptionArguments(option);
 			if (CommonConstants.RANGE_OPTIONS.contains(option)) {

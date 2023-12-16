@@ -10,9 +10,7 @@ import com.nagendar.learning.executor.CommandExecutor;
 import com.nagendar.learning.executor.CutCommandExecutor;
 import com.nagendar.learning.executor.ExitCommandExecutor;
 import com.nagendar.learning.executor.NonCutCommandExecutor;
-import com.nagendar.learning.io.Printer;
 import com.nagendar.learning.model.Command;
-import com.nagendar.learning.model.InputCommand;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,11 +19,11 @@ import java.util.Objects;
 public class CommandExecutorFactory {
 	Map<String, CommandExecutor> commandExecutorMap;
 
-	public CommandExecutorFactory(Printer consolePrinter, Printer filePrinter) {
+	public CommandExecutorFactory(PrinterFactory printerFactory) {
 		this.commandExecutorMap = new HashMap<>();
-		commandExecutorMap.put(CommonConstants.CUT_COMMAND, new CutCommandExecutor(consolePrinter, filePrinter));
-		commandExecutorMap.put(CommonConstants.EXIT_COMMAND, new ExitCommandExecutor(consolePrinter));
-		commandExecutorMap.put(CommonConstants.NON_CUT_COMMAND, new NonCutCommandExecutor(consolePrinter, filePrinter));
+		commandExecutorMap.put(CommonConstants.CUT_COMMAND, new CutCommandExecutor(printerFactory));
+		commandExecutorMap.put(CommonConstants.EXIT_COMMAND, new ExitCommandExecutor(printerFactory));
+		commandExecutorMap.put(CommonConstants.NON_CUT_COMMAND, new NonCutCommandExecutor(printerFactory));
 	}
 
 	public CommandExecutor getCommandExecutor(Command command) {
