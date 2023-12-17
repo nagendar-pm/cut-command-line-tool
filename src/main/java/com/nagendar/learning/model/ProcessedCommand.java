@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Set;
 
 public class ProcessedCommand extends Command{
-	private Set<String> flags;
+	private Set<Flag> flags;
 	private String delimiter;
-	private String option;
+	private Option option;
 	private List<Range> ranges;
 	private Set<String> filePaths;
 
@@ -23,18 +23,18 @@ public class ProcessedCommand extends Command{
 		super(rawCommandString);
 	}
 
-	public ProcessedCommand(Set<String> flags, String delimiter, Set<String> filePaths) {
+	public ProcessedCommand(Set<Flag> flags, String delimiter, Set<String> filePaths) {
 		super();
 		this.flags = flags;
 		this.delimiter = delimiter;
 		this.filePaths = filePaths;
 	}
 
-	public Set<String> getFlags() {
+	public Set<Flag> getFlags() {
 		return flags;
 	}
 
-	public void setFlags(Set<String> flags) {
+	public void setFlags(Set<Flag> flags) {
 		this.flags = flags;
 	}
 
@@ -46,11 +46,11 @@ public class ProcessedCommand extends Command{
 		this.delimiter = delimiter;
 	}
 
-	public String getOption() {
+	public Option getOption() {
 		return option;
 	}
 
-	public void setOption(String option) {
+	public void setOption(Option option) {
 		this.option = option;
 	}
 
