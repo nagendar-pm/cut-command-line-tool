@@ -7,12 +7,15 @@ package com.nagendar.learning.validator;
 
 import com.nagendar.learning.exceptions.FileDoesNotExistsException;
 import com.nagendar.learning.exceptions.IllegalFlagException;
+import com.nagendar.learning.exceptions.InvalidRangeException;
 import com.nagendar.learning.model.Command;
 import com.nagendar.learning.model.InputCommand;
 import com.nagendar.learning.utils.FileUtils;
 
-import static com.nagendar.learning.constants.CommonConstants.ALLOWED_FLAGS;
-import static com.nagendar.learning.constants.CommonConstants.ALLOWED_OPTIONS;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static com.nagendar.learning.constants.CommonConstants.*;
 
 public class CutCommandValidator implements CommandValidator {
 	@Override
@@ -35,10 +38,20 @@ public class CutCommandValidator implements CommandValidator {
 	}
 
 	private void validateCommandOptions(InputCommand command) {
+		Pattern pattern = Pattern.compile("([0-9]*\\-*[0-9]*,*){1,}", Pattern.CASE_INSENSITIVE);
 		for (String option : command.getOptions()) {
 			if (!ALLOWED_OPTIONS.contains(option)) {
 				throw new IllegalFlagException(String
 						.format("Found unexpected option %s, Expected from %s", option, ALLOWED_OPTIONS));
+			}
+			for (String argument : command.getOptionArguments(option)) {
+				if (RANGE_OPTIONS.contains(option)) {
+					Matcher matcher = pattern.matcher(argument);
+					boolean matchFound = matcher.matches();
+					if(!matchFound || (matcher.end() - matcher.start()) == 0) {
+						throw new InvalidRangeException(String.format("Expected a numeric range, Found: %s", argument));
+					}
+				}
 			}
 		}
 	}
