@@ -36,26 +36,37 @@ public class InputCommand extends Command{
 		List<String> rawFilePaths = new ArrayList<>();
 
 		int index = 0;
+		String lastOption = "";
 		boolean isArgumentCandidate = false;
 
 		while (index < this.commandParams.size()) {
 			String param = this.commandParams.get(index);
-			if (param.startsWith(COMMAND_OPTION_AND_FLAG_DELIMITER)) {
+			if (param.startsWith(COMMAND_OPTION_AND_FLAG_DELIMITER)
+					&& Flag.isFlagAllowed(param.substring(1, 2))) {
 				rawFlags.offerLast(param);
-				isArgumentCandidate = true;
+			}
+			else if (param.startsWith(COMMAND_OPTION_AND_FLAG_DELIMITER)
+					&& Option.isOptionAllowed(param.substring(1, 2))) {
+				String option = param.substring(1, 2);
+				rawOptionsAndArguments.putIfAbsent(option, new ArrayList<>());
+				if (param.length() > 2) {
+					rawOptionsAndArguments.get(option).add(param.substring(2));
+				}
+				else {
+					lastOption = option;
+					isArgumentCandidate = true;
+				}
 			}
 			else if (isArgumentCandidate) {
-				String currentOption = rawFlags.pollLast();
-				// TODO: add support to args of options without whitespace in b/w option and arg
-				rawOptionsAndArguments.putIfAbsent(currentOption, new ArrayList<>());
+				rawOptionsAndArguments.putIfAbsent(lastOption, new ArrayList<>());
 				// the below handles the delimiter option being set to ' ' or " "
 				if (param.equals(DOUBLE_QUOTE_CHARACTER)) {
-					rawOptionsAndArguments.get(currentOption).add(WHITESPACE_DELIMITER);
+					rawOptionsAndArguments.get(lastOption).add(WHITESPACE_DELIMITER);
 				}
 				else if (param.equals(SINGLE_QUOTE_CHARACTER)) {
-					rawOptionsAndArguments.get(currentOption).add(WHITESPACE_DELIMITER);
+					rawOptionsAndArguments.get(lastOption).add(WHITESPACE_DELIMITER);
 				}
-				else rawOptionsAndArguments.get(currentOption).add(param);
+				else rawOptionsAndArguments.get(lastOption).add(param);
 				isArgumentCandidate = false;
 			}
 			else if (!param.equals(DOUBLE_QUOTE_CHARACTER)
@@ -82,8 +93,7 @@ public class InputCommand extends Command{
 		this.optionsAndArguments = new HashMap<>();
 		for (String option : rawOptionsAndArguments.keySet()) {
 			// we can specify a list of ranges like `-f 1,2 -f 3-4`
-			String optionWithoutHyphen = option.substring(1);
-			optionsAndArguments.put(optionWithoutHyphen, rawOptionsAndArguments.get(option));
+			optionsAndArguments.put(option, rawOptionsAndArguments.get(option));
 		}
 	}
 

@@ -54,7 +54,8 @@ public class FieldCutOptionExecutor implements OptionExecutor {
 			int from = Math.max(1, range.getFrom()) - 1;
 			int to = Math.min(fields.length, range.getTo()) - 1;
 			for (int i=from; i<=to; i++) {
-				stringBuilder.append(fields[i]).append(" ");
+				if (i > from) stringBuilder.append(processedCommand.getDelimiter());
+				stringBuilder.append(fields[i]);
 			}
 		}
 		return stringBuilder.toString();
