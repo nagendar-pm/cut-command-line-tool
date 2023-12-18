@@ -10,6 +10,7 @@ import com.nagendar.learning.exceptions.IllegalOptionException;
 import com.nagendar.learning.factory.OptionExecutorFactory;
 import com.nagendar.learning.factory.PrinterFactory;
 import com.nagendar.learning.model.Command;
+import com.nagendar.learning.model.Option;
 import com.nagendar.learning.model.ProcessedCommand;
 import com.nagendar.learning.option.OptionExecutor;
 
@@ -32,7 +33,7 @@ public class CutCommandExecutor implements CommandExecutor {
 		OptionExecutor optionExecutor = optionExecutorFactory.getOptionExecutor(processedCommand.getOption());
 		if (Objects.isNull(optionExecutor)) {
 			throw new IllegalOptionException(String.format("Expected options: %s, Found %s",
-					CommonConstants.ALLOWED_OPTIONS, processedCommand.getOption()));
+					Option.getOptionsList(), processedCommand.getOption()));
 		}
 		optionExecutor.executeOption(processedCommand);
 	}

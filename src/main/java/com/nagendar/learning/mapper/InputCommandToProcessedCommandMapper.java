@@ -5,12 +5,14 @@
 
 package com.nagendar.learning.mapper;
 
+import com.nagendar.learning.exceptions.IllegalFlagException;
 import com.nagendar.learning.exceptions.IllegalOptionException;
-import com.nagendar.learning.model.InputCommand;
-import com.nagendar.learning.model.ProcessedCommand;
-import com.nagendar.learning.model.Range;
+import com.nagendar.learning.model.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 import static com.nagendar.learning.constants.CommonConstants.*;
 
@@ -24,9 +26,13 @@ public class InputCommandToProcessedCommandMapper {
 	public ProcessedCommand map(InputCommand inputCommand) {
 		String rangeString = null;
 		ProcessedCommand processedCommand = new ProcessedCommand(inputCommand.getRawCommandString());
-		for (String option : inputCommand.getOptions()) {
-			List<String> arguments = inputCommand.getOptionArguments(option);
-			if (RANGE_OPTIONS.contains(option)) {
+		processedCommand.setFilePaths(inputCommand.getFilePaths());
+		processedCommand.setIsTerminal(inputCommand.getIsTerminal());
+
+		for (String optionStr : inputCommand.getOptions()) {
+			Option option = Option.getOptionFromString(optionStr);
+			List<String> arguments = inputCommand.getOptionArguments(optionStr);
+			if (option.isRangeOption()) {
 				processedCommand.setOption(option);
 				rangeString = arguments.stream()
 						.reduce((a, b) -> a + RANGE_SEPARATOR + b)
@@ -37,11 +43,28 @@ public class InputCommandToProcessedCommandMapper {
 				processedCommand.setDelimiter(delimiter);
 			}
 		}
+		if (processedCommand.getOption() != Option.OPTION_FIELD_SPECIFIER
+			&& (Objects.nonNull(processedCommand.getDelimiter()) && !processedCommand.getDelimiter().isEmpty())) {
+			throw new IllegalOptionException(String.format("Unexpected Option - delimiter found: '%s'",
+					processedCommand.getDelimiter()));
+		}
+		Set<Flag> flags = new HashSet<>();
+		for (String flagStr : inputCommand.getFlags()) {
+			Flag flag = Flag.getFlagFromString(flagStr);
+			List<Flag> allowedFlagsOfOption = processedCommand.getOption().getAllowedFlags();
+			if (Objects.isNull(allowedFlagsOfOption) || !allowedFlagsOfOption.contains(flag)) {
+				throw new IllegalFlagException(String.format("The allowed flags for option %s are %s, Found %s",
+						processedCommand.getOption(),
+						processedCommand.getOption().getAllowedFlags(),
+						flag));
+			}
+			flags.add(flag);
+		}
+		processedCommand.setFlags(flags);
 		List<Range> ranges = rangeResolver.parseRanges(rangeString);
 		List<Range> optimizedRanges = rangeResolver.mergeOverlappingRanges(ranges);
 		processedCommand.setRanges(optimizedRanges);
-		processedCommand.setFilePaths(inputCommand.getFilePaths());
-		processedCommand.setIsTerminal(inputCommand.getIsTerminal());
+
 		return processedCommand;
 	}
 
