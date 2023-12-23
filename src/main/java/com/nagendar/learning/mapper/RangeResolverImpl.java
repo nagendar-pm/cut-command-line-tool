@@ -79,7 +79,14 @@ public class RangeResolverImpl implements RangeResolver {
 			}
 			Range nextRange = getOverlappedRange(lastRange, ranges.get(i));
 			if (Objects.isNull(nextRange)) {
-				mergedRanges.add(ranges.get(i));
+				Range immediateRange = getImmediateRanges(lastRange, ranges.get(i));
+				if (Objects.nonNull(immediateRange)) {
+					if (!mergedRanges.isEmpty()) mergedRanges.pollLast();
+					mergedRanges.offerLast(immediateRange);
+				}
+				else {
+					mergedRanges.add(ranges.get(i));
+				}
 			}
 			else if (!nextRange.equals(lastRange)) {
 				if (!mergedRanges.isEmpty()) mergedRanges.pollLast();
@@ -118,6 +125,20 @@ public class RangeResolverImpl implements RangeResolver {
 		}
 		else if (range1.getFrom() <= range2.getTo()) {
 			return new Range(range2.getFrom(), range1.getTo());
+		}
+		return null;
+	}
+
+	private Range getImmediateRanges(Range range1, Range range2) {
+		// (f1, t1) and (f2, t2)
+		// such that f2 = t1 + 1
+		if (Objects.isNull(range1) || Objects.isNull(range2)) return null;
+
+		if (range1.getFrom() > range2.getFrom()) {
+			return getImmediateRanges(range2, range1);
+		}
+		if (range1.getTo() + 1 == range2.getFrom()) {
+			return new Range(range1.getFrom(), range2.getTo());
 		}
 		return null;
 	}
