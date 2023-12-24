@@ -17,4 +17,6 @@ public interface CommonConstants {
 	String COMMAND_OPTION_AND_FLAG_DELIMITER = "-";
 	String RANGE_HYPHEN = "-";
 	String RANGE_SEPARATOR = ",";
+	int CHAR_HIGHER_ORDER_BITS = 0xC0;
+	int CHAR_INNER_BITS = 0x80;
 }

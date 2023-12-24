@@ -8,6 +8,7 @@ package com.nagendar.learning.option;
 import com.nagendar.learning.factory.PrinterFactory;
 import com.nagendar.learning.io.Printer;
 import com.nagendar.learning.model.Command;
+import com.nagendar.learning.model.Flag;
 import com.nagendar.learning.model.ProcessedCommand;
 import com.nagendar.learning.model.Range;
 
@@ -17,6 +18,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+
+import static com.nagendar.learning.constants.CommonConstants.CHAR_HIGHER_ORDER_BITS;
+import static com.nagendar.learning.constants.CommonConstants.CHAR_INNER_BITS;
 
 public class ByteCutOptionExecutor implements OptionExecutor {
 	private final PrinterFactory printerFactory;
@@ -56,9 +60,28 @@ public class ByteCutOptionExecutor implements OptionExecutor {
 		for (Range range : processedCommand.getRanges()) {
 			int from = Math.max(1, range.getFrom()) - 1;
 			int to = Math.min(bytes.length, range.getTo()) - 1;
+			// setting the flag here...
+			if (processedCommand.getFlags().contains(Flag.FLAG_NOT_SPLIT_MULTI_BYTE_CHARACTERS)) {
+				from = getValidUtf8Start(bytes, from);
+				to = getValidUtf8Start(bytes, to);
+			}
 			byte[] bytesOfRange = Arrays.copyOfRange(bytes, from, to + 1);
 			stringBuilder.append(new String(bytesOfRange));
 		}
 		return stringBuilder.toString();
+	}
+
+	private int getValidUtf8Start(byte[] bytes, int index) {
+		/*
+		 In UTF-8, the high-order bits for the start of a character are 110 for two-byte characters,
+		 1110 for three-byte characters, and 11110 for four-byte characters.
+
+		 The expression (b & 0xC0) != 0x80 checks that the byte does not match the bit pattern 10xxxxxx,
+		 which indicates an interior byte in a multi-byte sequence.
+		 */
+		while (index >= 0 && (bytes[index] & CHAR_HIGHER_ORDER_BITS) != CHAR_INNER_BITS) {
+			index--;
+		}
+		return Math.max(index, 0);
 	}
 }
