@@ -20,6 +20,9 @@ public class ConsolePrinter implements Printer{
 			stringBuilder.append(message);
 			stringBuilder.append("\n");
 		}
-		System.out.println(stringBuilder.deleteCharAt(stringBuilder.length()-1));
+		if (!stringBuilder.isEmpty()) {
+			stringBuilder.deleteCharAt(stringBuilder.length()-1);
+		}
+		System.out.println(stringBuilder);
 	}
 }
