@@ -5,9 +5,12 @@ package com.nagendar.learning;
  * @createdAt: 02/12/23 11:13 am
  */
 
-import com.nagendar.learning.model.Command;
-import com.nagendar.learning.validator.CommandValidator;
-import com.nagendar.learning.validator.CutCommandValidator;
+import com.nagendar.learning.factory.*;
+import com.nagendar.learning.mapper.InputCommandToProcessedCommandMapper;
+import com.nagendar.learning.mapper.RangeResolver;
+import com.nagendar.learning.mapper.RangeResolverImpl;
+import com.nagendar.learning.service.CommandProcessorService;
+import com.nagendar.learning.service.CommandProcessorServiceImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,14 +18,21 @@ import java.io.InputStreamReader;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
-		CommandValidator validator = new CutCommandValidator();
+		PrinterFactory printerFactory = new PrinterFactory();
+		RangeResolver rangeResolver = new RangeResolverImpl();
+		InputCommandToProcessedCommandMapper commandToProcessedCommandMapper =
+				new InputCommandToProcessedCommandMapper(rangeResolver);
+		CommandValidatorFactory commandValidatorFactory = new CommandValidatorFactory();
+		CommandProcessorFactory commandProcessorFactory = new CommandProcessorFactory(commandToProcessedCommandMapper);
+		CommandExecutorFactory commandExecutorFactory = new CommandExecutorFactory(printerFactory);
+		CommandProcessorService commandProcessorService =
+				new CommandProcessorServiceImpl(commandValidatorFactory,
+						commandProcessorFactory, commandExecutorFactory);
+		CommandModeFactory commandModeFactory = new CommandModeFactory(commandProcessorService);
 		final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		while (true) {
 			final String input = reader.readLine();
-			Command command = new Command(input);
-			boolean validation = validator.validate(command);
-			System.out.println("validation = " + validation);
+			commandModeFactory.getCommandMode(input).process(input);
 		}
-
 	}
 }
