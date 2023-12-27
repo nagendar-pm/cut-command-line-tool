@@ -1,0 +1,72 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface CommandValidator {
+	boolean validate(Command command)
+}
+
+class CutCommandValidator implements CommandValidator {
+    + boolean validate(Command command)
+    - void validateCommandFlags(InputCommand command)
+    - void validateCommandOptions(InputCommand command)
+    - void validateCommandFilePaths(InputCommand command)
+}
+
+class NonCutCommandValidator implements CommandValidator {
+	+ boolean validate(Command command)
+}
+
+class ExitCommandValidator implements CommandValidator {
+	+ boolean validate(Command command)
+}
+
+abstract class Command {
+	- String rawCommandString
+	- String commandType
+	- boolean isTerminal
+}
+
+class InputCommand extends Command{
+	- List<String> commandParams
+	- Set<String> flags
+	- Map<String, List<String>> optionsAndArguments
+	- Set<String> filePaths
+
+	+ void parseParams()
+	- void tokenizeParams()
+	- void parseFlags(List<String> rawFlags)
+	- void parseOptions(Map<String, List<String>> rawOptionsAndArguments)
+	- void parseFilePaths(List<String> rawFilePaths)
+}
+
+class ProcessedCommand extends Command{
+	- Set<Flag> flags
+	- String delimiter
+	- Option option
+	- List<Range> ranges
+	- Set<String> filePaths
+}
+
+enum Flag {
+	FLAG_NOT_SPLIT_MULTI_BYTE_CHARACTERS
+	FLAG_SUPPRESS_LINES_WITH_NO_FIELD_DELIMITER
+	FLAG_WHITESPACE_DELIMITER
+	- String flagString;
+}
+
+enum Option {
+	OPTION_BYTE_LIST
+	OPTION_CHARACTER_LIST
+	OPTION_FIELD_SPECIFIER
+	OPTION_DELIMITER_SPECIFIER
+	- String optionString;
+	- List<Flag> allowedFlags;
+	- boolean isRangeOption;
+}
+
+ProcessedCommand *-- Flag
+ProcessedCommand *-- Option
+
+CommandValidator -- Command
+
+@enduml

@@ -8,16 +8,14 @@ A simple implementation of `cut` command in Java
 
 ### Core-Components:
 1. Command Validator: Validates the given command. Whether it is a valid command and fails with 
-a related message if it isn't a valid one.
+a related message if it isn't a valid one.<br>
+The class diagram for the same can be found below:
+![Class diagram for Validator](uml/Validator.png "Class diagram of Validator")
 2. Command Executor: Executes the command and outputs the output to the terminal.
 
-### Flags implemented:
-None
+### Options and Flags implemented:
+1. Implemented all the possible options in the command utility `-c`, `-b`, and `-f`
+2. The flags associated with the options are also implemented
+   1. `-n` for `-b` option
+   2. `-s` and `-w` or `-d` for `-f` option
 
-### Flags to be implemented:
-1. Iteration-1: -c, -d, -f
-   1. Support options and args separated by a whitespace
-   2. Flags only one at a time
-2. Iteration-2: -b
-3. Iteration-3: -n
-4. Iteration-4: -s (future scope for now)
