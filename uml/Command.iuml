@@ -1,0 +1,32 @@
+@startuml
+abstract class Command {
+	- String rawCommandString
+	- String commandType
+	- boolean isTerminal
+}
+@enduml
+
+@startuml
+    class InputCommand extends Command{
+    	- List<String> commandParams
+    	- Set<String> flags
+    	- Map<String, List<String>> optionsAndArguments
+    	- Set<String> filePaths
+
+    	+ void parseParams()
+    	- void tokenizeParams()
+    	- void parseFlags(List<String> rawFlags)
+    	- void parseOptions(Map<String, List<String>> rawOptionsAndArguments)
+    	- void parseFilePaths(List<String> rawFilePaths)
+    }
+@enduml
+
+@startuml
+    class ProcessedCommand extends Command{
+        - Set<Flag> flags
+        - String delimiter
+        - Option option
+        - List<Range> ranges
+        - Set<String> filePaths
+    }
+@enduml

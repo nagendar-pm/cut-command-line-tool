@@ -20,33 +20,6 @@ class ExitCommandValidator implements CommandValidator {
 	+ boolean validate(Command command)
 }
 
-abstract class Command {
-	- String rawCommandString
-	- String commandType
-	- boolean isTerminal
-}
-
-class InputCommand extends Command{
-	- List<String> commandParams
-	- Set<String> flags
-	- Map<String, List<String>> optionsAndArguments
-	- Set<String> filePaths
-
-	+ void parseParams()
-	- void tokenizeParams()
-	- void parseFlags(List<String> rawFlags)
-	- void parseOptions(Map<String, List<String>> rawOptionsAndArguments)
-	- void parseFilePaths(List<String> rawFilePaths)
-}
-
-class ProcessedCommand extends Command{
-	- Set<Flag> flags
-	- String delimiter
-	- Option option
-	- List<Range> ranges
-	- Set<String> filePaths
-}
-
 enum Flag {
 	FLAG_NOT_SPLIT_MULTI_BYTE_CHARACTERS
 	FLAG_SUPPRESS_LINES_WITH_NO_FIELD_DELIMITER
@@ -69,4 +42,7 @@ ProcessedCommand *-- Option
 
 CommandValidator -- Command
 
+!include Command.iuml!0
+!include Command.iuml!1
+!include Command.iuml!2
 @enduml
