@@ -20,23 +20,6 @@ class ExitCommandValidator implements CommandValidator {
 	+ boolean validate(Command command)
 }
 
-enum Flag {
-	FLAG_NOT_SPLIT_MULTI_BYTE_CHARACTERS
-	FLAG_SUPPRESS_LINES_WITH_NO_FIELD_DELIMITER
-	FLAG_WHITESPACE_DELIMITER
-	- String flagString;
-}
-
-enum Option {
-	OPTION_BYTE_LIST
-	OPTION_CHARACTER_LIST
-	OPTION_FIELD_SPECIFIER
-	OPTION_DELIMITER_SPECIFIER
-	- String optionString;
-	- List<Flag> allowedFlags;
-	- boolean isRangeOption;
-}
-
 ProcessedCommand *-- Flag
 ProcessedCommand *-- Option
 
@@ -45,4 +28,5 @@ CommandValidator -- Command
 !include Command.iuml!0
 !include Command.iuml!1
 !include Command.iuml!2
+!include Command.iuml!3
 @enduml

@@ -7,11 +7,14 @@ A simple implementation of `cut` command in Java
 3. Support multiple files at a time
 
 ### Core-Components:
-1. Command Validator: Validates the given command. Whether it is a valid command and fails with 
+1. **Command Validator**: Validates the given command. Whether it is a valid command and fails with 
 a related message if it isn't a valid one.<br>
 The class diagram for the same can be found below:
 ![Class diagram for Validator](uml/Validator.png "Class diagram of Validator")
-2. Command Executor: Executes the command and outputs the output to the terminal.
+<br>
+2. **Command Executor**: Executes the command and outputs the output to the terminal.
+The class diagram for the same can be found below:
+![Class diagram for Executor](uml/Executor.png "Class diagram of Executor")
 
 ### Options and Flags implemented:
 1. Implemented all the possible options in the command utility `-c`, `-b`, and `-f`

@@ -1,5 +1,34 @@
 @startuml
 'https://plantuml.com/class-diagram
 
+interface CommandExecutor {
+	void execute(Command command){}
+}
+
+class CutCommandExecutor implements CommandExecutor {
+	- OptionExecutorFactory optionExecutorFactory;
+	- PrinterFactory printerFactory;
+	+ void execute(Command command)
+}
+
+class NonCutCommandExecutor implements CommandExecutor {
+	- PrinterFactory printerFactory;
+    + void execute(Command command)
+}
+
+class ExitCommandExecutor implements CommandExecutor {
+	- PrinterFactory printerFactory;
+	+ void execute(Command command)
+}
+
+ProcessedCommand *-- Flag
+ProcessedCommand *-- Option
+
+CommandExecutor -- Command
+
+!include Command.iuml!0
+!include Command.iuml!1
+!include Command.iuml!2
+!include Command.iuml!3
 
 @enduml
