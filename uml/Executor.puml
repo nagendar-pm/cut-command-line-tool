@@ -6,22 +6,23 @@ interface CommandExecutor {
 }
 
 class CutCommandExecutor implements CommandExecutor {
-	- OptionExecutorFactory optionExecutorFactory;
-	- PrinterFactory printerFactory;
+	- OptionExecutorFactory optionExecutorFactory
+	- PrinterFactory printerFactory
 	+ void execute(Command command)
 }
 
 class NonCutCommandExecutor implements CommandExecutor {
-	- PrinterFactory printerFactory;
+	- PrinterFactory printerFactory
     + void execute(Command command)
 }
 
 class ExitCommandExecutor implements CommandExecutor {
-	- PrinterFactory printerFactory;
+	- PrinterFactory printerFactory
 	+ void execute(Command command)
 }
-
-CommandExecutor -- Command
+CommandExecutorFactory -- CommandExecutor
+CommandExecutor -left- Command
+CommandExecutor -right- PrinterFactory
 
 !include Command.iuml!0
 
@@ -30,10 +31,32 @@ CommandExecutor -- Command
 !include Factory.iuml!4
 !include Factory.iuml!5
 
-CommandExecutorFactory -- CommandExecutor
+
 
 CutCommandExecutor -- OptionExecutorFactory
 
+interface OptionExecutor {
+	void executeOption(Command processedCommand)
+}
 
+class ByteCutOptionExecutor implements OptionExecutor {
+    - PrinterFactory printerFactory
+    + void executeOption(Command command)
+    - String handleLine(String line, ProcessedCommand processedCommand)
+    - int getValidUtf8Start(byte[] bytes, int index)
+}
 
+class CharacterCutOptionExecutor implements OptionExecutor {
+    - PrinterFactory printerFactory
+    + void executeOption(Command command)
+    - String handleLine(String line, ProcessedCommand processedCommand)
+}
+
+class FieldCutOptionExecutor implements OptionExecutor {
+    - PrinterFactory printerFactory
+    + void executeOption(Command command)
+    - String handleLine(String line, ProcessedCommand processedCommand)
+}
+
+OptionExecutorFactory -- OptionExecutor
 @enduml
