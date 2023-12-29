@@ -1,0 +1,55 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface CommandMode {
+	void process(String input)
+}
+
+class PipedCommandMode {
+    - CommandProcessorService commandProcessorService
+
+    + void process(String input)
+    - String buildCommandWithFilepath(String command, boolean isFirstCommand)
+}
+
+class SingleCommandMode {
+    - CommandProcessorService commandProcessorService
+
+    + void process(String input)
+}
+
+SingleCommandMode ..|> CommandMode
+PipedCommandMode ..|> CommandMode
+
+interface CommandProcessorService {
+	void processCommand(Command command)
+}
+
+class CommandProcessorServiceImpl implements CommandProcessorService {
+    - CommandValidatorFactory commandValidatorFactory
+    - CommandProcessorFactory commandProcessorFactory
+    - CommandExecutorFactory commandExecutorFactory
+
+    + void processCommand(Command command)
+}
+
+!include Factory.iuml!0
+!include Factory.iuml!1
+!include Factory.iuml!2
+
+CommandMode -- CommandProcessorService
+
+CommandProcessorServiceImpl -- CommandValidatorFactory
+CommandProcessorServiceImpl -- CommandExecutorFactory
+CommandProcessorServiceImpl -- CommandProcessorFactory
+
+!include Command.iuml!0
+
+CommandProcessorService -right- Command
+
+class Main {
+    + void main()
+}
+
+Main -right- CommandMode
+@enduml

@@ -20,13 +20,12 @@ class ExitCommandValidator implements CommandValidator {
 	+ boolean validate(Command command)
 }
 
-ProcessedCommand *-- Flag
-ProcessedCommand *-- Option
 
-CommandValidator -- Command
+CommandValidator -right- Command
 
 !include Command.iuml!0
-!include Command.iuml!1
-!include Command.iuml!2
-!include Command.iuml!3
+
+!include Factory.iuml!0
+
+CommandValidatorFactory -- CommandValidator
 @enduml

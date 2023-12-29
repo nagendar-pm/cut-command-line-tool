@@ -21,14 +21,19 @@ class ExitCommandExecutor implements CommandExecutor {
 	+ void execute(Command command)
 }
 
-ProcessedCommand *-- Flag
-ProcessedCommand *-- Option
-
 CommandExecutor -- Command
 
 !include Command.iuml!0
-!include Command.iuml!1
-!include Command.iuml!2
-!include Command.iuml!3
+
+
+!include Factory.iuml!1
+!include Factory.iuml!4
+!include Factory.iuml!5
+
+CommandExecutorFactory -- CommandExecutor
+
+CutCommandExecutor -- OptionExecutorFactory
+
+
 
 @enduml
