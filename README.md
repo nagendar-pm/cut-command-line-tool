@@ -8,16 +8,21 @@ A simple implementation of `cut` command in Java
    2. `-s` and `-w` or `-d` for `-f` option
 
 ### Core-Components:
-1. **Command Validator**: Validates the given command. Whether it is a valid command and fails with 
+#### **Command Validator**: 
+Validates the given command. Whether it is a valid command and fails with 
 a related message if it isn't a valid one.<br>
 The class diagram for the same can be found below:
 ![Class diagram for Validator](uml/Validator.png "Class diagram of Validator")
 <br>
-2. **Command Executor**: Executes the command and outputs the output to the terminal.
+
+#### **Command Executor**: 
+Executes the command and outputs the output to the terminal.
 The class diagram for the same can be found below:
 ![Class diagram for Executor](uml/Executor.png "Class diagram of Executor")
 <br>
-3. **Processor Service**: Both Validation and Execution of the given input command string will be done by Processing
+
+#### **Processor Service**: 
+Both Validation and Execution of the given input command string will be done by Processing
 service. First of all, the input is checked for any pipes if present and handled accordingly.<br>
 ![Class diagram for Processor](uml/Architecture.png "Class diagram of Architecture")
 
