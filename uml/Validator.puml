@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface CommandValidator {
+	boolean validate(Command command)
+}
+
+class CutCommandValidator implements CommandValidator {
+    + boolean validate(Command command)
+    - void validateCommandFlags(InputCommand command)
+    - void validateCommandOptions(InputCommand command)
+    - void validateCommandFilePaths(InputCommand command)
+}
+
+class NonCutCommandValidator implements CommandValidator {
+	+ boolean validate(Command command)
+}
+
+class ExitCommandValidator implements CommandValidator {
+	+ boolean validate(Command command)
+}
+
+
+CommandValidator -right- Command
+
+!include Command.iuml!0
+
+!include Factory.iuml!0
+
+CommandValidatorFactory -- CommandValidator
+@enduml

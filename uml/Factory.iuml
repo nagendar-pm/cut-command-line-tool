@@ -1,0 +1,42 @@
+@startuml
+class CommandValidatorFactory {
+	- Map<String, CommandValidator> commandValidatorMap
+	+ CommandValidator getCommandValidator(Command command)
+}
+@enduml
+
+@startuml
+    class CommandExecutorFactory {
+        - Map<String, CommandExecutor> commandExecutorMap
+        + CommandExecutor getCommandExecutor(Command command)
+    }
+@enduml
+
+@startuml
+    class CommandProcessorFactory {
+        - InputCommandToProcessedCommandMapper inputCommandToProcessedCommandMapper
+        + Command processCommandForExecution(Command command)
+    }
+@enduml
+
+@startuml
+    class CommandModeFactory {
+        - Map<Boolean, CommandMode> commandModeMap
+        + CommandMode getCommandMode(String input)
+    }
+@enduml
+
+@startuml
+    class OptionExecutorFactory {
+        - Map<Option, OptionExecutor> optionExecutorMap
+        + OptionExecutor getOptionExecutor(Option option)
+    }
+@enduml
+
+@startuml
+    class PrinterFactory {
+        - Map<Boolean, Printer> printerMap
+        + Printer getPrinter(boolean isTerminalCommand)
+        + Printer getConsolePrinter()
+    }
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+!include Command.iuml!0
+!include Command.iuml!1
+!include Command.iuml!2
+!include Command.iuml!3
+
+ProcessedCommand o-- Flag
+ProcessedCommand o-- Option
+
+@enduml
