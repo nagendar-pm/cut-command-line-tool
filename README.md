@@ -7,7 +7,28 @@ A simple implementation of `cut` command in Java
    1. `-n` for `-b` option
    2. `-s` and `-w` or `-d` for `-f` option
 
+### Flow
+The flow of the command through various components of the application is shown below. 
+1. The input command is 
+handled on two major _modes_ as a standalone command (SingleMode in the image) or as a Piped command. 
+In any of the modes, the handling of `cut` command is same either as an **intermediate** command or a **terminal** command. 
+2. Once the mode is decided, the command is processed for the first time tokenizing every component of the command possible.
+In this processing, the command is categorised as cut, non-cut or an exit command. Options, their args and flags are splitted. 
+3. Followed by _processing_1_, if the command is cut it is _validated_. Here we validate the command for the potential
+invalid options, args or flags. Any invalid param will fail the flow with an appropriate error message. 
+4. The validation is followed by _processing_2_. Here the command is processed again for range resolution (main area of work of cut command), 
+option and flag parsing. 
+5. Next comes the _Execution_, where we execute the command based on the options and flags specified.
+<br>
+![Flow diagram for application](uml/Flow.png "Flow diagram of application")
+
 ### Core-Components:
+#### **Processor Service**:
+Both Validation and Execution of the given input command string will be done by Processing
+service. First of all, the input is checked for any pipes if present and handled accordingly.<br>
+![Class diagram for Processor](uml/Architecture.png "Class diagram of Architecture")
+
+
 #### **Command Validator**: 
 Validates the given command. Whether it is a valid command and fails with 
 a related message if it isn't a valid one.<br>
@@ -20,11 +41,6 @@ Executes the command and outputs the output to the terminal.
 The class diagram for the same can be found below:
 ![Class diagram for Executor](uml/Executor.png "Class diagram of Executor")
 <br>
-
-#### **Processor Service**: 
-Both Validation and Execution of the given input command string will be done by Processing
-service. First of all, the input is checked for any pipes if present and handled accordingly.<br>
-![Class diagram for Processor](uml/Architecture.png "Class diagram of Architecture")
 
 ### Representation
 `Command` is handled in two different ways. If the command is not cut, we can simply pass it to System for 

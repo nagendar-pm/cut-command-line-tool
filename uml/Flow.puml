@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+'scale 350 width
+hide empty description
+
+State Flow {
+    [*] --> Mode
+    Mode : Mode of the command is decided, Single or Piped
+
+    Mode --> Processing_1
+    Processing_1 : Command is tokenized and potential options and flags are identified
+
+    Processing_1 --> Validation
+    Validation : Command is validated for invalid options, flags and file paths
+
+    Validation --> Processing_2
+    Processing_2 : Options, their args and Flags are parsed and Ranges are resolved
+
+    Processing_2 --> Execution
+    Execution : Command is executed based on the options
+
+    Execution --> [*]
+}
+
+@enduml
