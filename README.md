@@ -38,6 +38,7 @@ a related message if it isn't a valid one.
 2. The validator is obtained based on the type of the command from the factory and type of the command essentially means if it is cut, non-cut or exit command
 <br>
 The class diagram for the same can be found below:
+
 ![Class diagram for Validator](uml/Validator.png "Class diagram of Validator")
 
 
@@ -47,6 +48,7 @@ The class diagram for the same can be found below:
 3. In Cut-command, each option has a separate executor to make the handling better.
 <br>
 The class diagram for the same can be found below:
+
 ![Class diagram for Executor](uml/Executor.png "Class diagram of Executor")
 
 
