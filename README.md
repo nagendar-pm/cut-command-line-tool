@@ -19,7 +19,7 @@ invalid options, args or flags. Any invalid param will fail the flow with an app
 4. The validation is followed by _processing_2_. Here the command is processed again for range resolution (main area of work of cut command), 
 option and flag parsing. 
 5. Next comes the _Execution_, where we execute the command based on the options and flags specified.
-<br>
+
 ![Flow diagram for application](uml/Flow.png "Flow diagram of application")
 
 ### Core-Components:
@@ -28,7 +28,7 @@ option and flag parsing.
 service. First of all, the input is checked for any pipes if present and handled accordingly.
 2. In the below image, both `CommandValidatorFactory` and `CommandExecutorFactory` are the entry points
 into the Validator and Executor services respectively. These components and explained neatly in the below sections.
-<br>
+
 ![Class diagram for Processor](uml/Architecture.png "Class diagram of Architecture")
 
 
@@ -39,7 +39,7 @@ a related message if it isn't a valid one.
 <br>
 The class diagram for the same can be found below:
 ![Class diagram for Validator](uml/Validator.png "Class diagram of Validator")
-<br>
+
 
 #### **Command Executor**: 
 1. Executes the command and outputs the output to the terminal.
@@ -48,7 +48,7 @@ The class diagram for the same can be found below:
 <br>
 The class diagram for the same can be found below:
 ![Class diagram for Executor](uml/Executor.png "Class diagram of Executor")
-<br>
+
 
 ### Representation
 #### Command
@@ -56,7 +56,7 @@ The class diagram for the same can be found below:
 2. If the command is not cut, we can simply pass it to System for 
 processing further. 
 3. Else we will use `InputCommand` while validation and `ProcessedCommand` in case of Execution.
-<br>
+
 ![Class diagram for Command](uml/Command.png "Class diagram of Command")
 
 #### Range
@@ -64,5 +64,5 @@ processing further.
 as `Range`s.
 2. `Range` has _from_ and _to_ attributes.
 3. Ranges are resolved from the command by `RangeResolver` and are passed in the `ProcessedCommand` for the execution.
-<br>
+
 ![Class diagram for Range](uml/Range.png "Class diagram of Range")
