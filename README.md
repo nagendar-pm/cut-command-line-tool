@@ -59,6 +59,10 @@ processing further.
 <br>
 ![Class diagram for Command](uml/Command.png "Class diagram of Command")
 
-
-
-
+#### Range
+1. The main use-case of cut command lies in its ability to handle the range of columns, which are represented here
+as `Range`s.
+2. `Range` has _from_ and _to_ attributes.
+3. Ranges are resolved from the command by `RangeResolver` and are passed in the `ProcessedCommand` for the execution.
+<br>
+![Class diagram for Range](uml/Range.png "Class diagram of Range")
