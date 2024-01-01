@@ -24,29 +24,41 @@ option and flag parsing.
 
 ### Core-Components:
 #### **Processor Service**:
-Both Validation and Execution of the given input command string will be done by Processing
-service. First of all, the input is checked for any pipes if present and handled accordingly.<br>
+1. Both Validation and Execution of the given input command string will be done by Processing
+service. First of all, the input is checked for any pipes if present and handled accordingly.
+2. In the below image, both `CommandValidatorFactory` and `CommandExecutorFactory` are the entry points
+into the Validator and Executor services respectively. These components and explained neatly in the below sections.
+<br>
 ![Class diagram for Processor](uml/Architecture.png "Class diagram of Architecture")
 
 
 #### **Command Validator**: 
-Validates the given command. Whether it is a valid command and fails with 
-a related message if it isn't a valid one.<br>
+1. Validates the given command. Whether it is a valid command and fails with 
+a related message if it isn't a valid one. 
+2. The validator is obtained based on the type of the command from the factory and type of the command essentially means if it is cut, non-cut or exit command
+<br>
 The class diagram for the same can be found below:
 ![Class diagram for Validator](uml/Validator.png "Class diagram of Validator")
 <br>
 
 #### **Command Executor**: 
-Executes the command and outputs the output to the terminal.
+1. Executes the command and outputs the output to the terminal.
+2. The executor for a given type of command is obtained from the factory and is handled accordingly.
+3. In Cut-command, each option has a separate executor to make the handling better.
+<br>
 The class diagram for the same can be found below:
 ![Class diagram for Executor](uml/Executor.png "Class diagram of Executor")
 <br>
 
 ### Representation
-`Command` is handled in two different ways. If the command is not cut, we can simply pass it to System for 
-processing further. Else we will use `InputCommand` while validation and `ProcessedCommand` in case of Execution.
+#### Command
+1. `Command` is handled in two different ways. 
+2. If the command is not cut, we can simply pass it to System for 
+processing further. 
+3. Else we will use `InputCommand` while validation and `ProcessedCommand` in case of Execution.
 <br>
 ![Class diagram for Command](uml/Command.png "Class diagram of Command")
+
 
 
 
