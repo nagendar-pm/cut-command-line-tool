@@ -126,3 +126,66 @@ abc
 అ
 ioq
 ```
+
+### -c option
+```commandline
+$ nagi_cut -c 1,2,3 resources/sample.tsv
+Executing the command `nagi_cut -c 1,2,3 resources/sample.tsv`...
+Executing file: resources/sample.tsv
+f0	
+0	1
+5	6
+10	
+15	
+20	
+
+$ nagi_cut -c 1,3 resources/sample.tsv
+Executing the command `nagi_cut -c 1,3 resources/sample.tsv`...
+Executing file: resources/sample.tsv
+f	
+01
+56
+1	
+1	
+2	
+
+$ nagi_cut -c 1-3 resources/sample.tsv
+Executing the command `nagi_cut -c 1-3 resources/sample.tsv`...
+Executing file: resources/sample.tsv
+f0	
+0	1
+5	6
+10	
+15	
+20	
+
+$ nagi_cut -c 1- resources/sample.tsv
+Executing the command `nagi_cut -c 1- resources/sample.tsv`...
+Executing file: resources/sample.tsv
+f0	f1	f2	f3	f4
+0	1	2	3	4
+5	6	7	8	9
+10	11	12	13	14
+15	16	17	18	19
+20	21	22	23	24
+
+$ nagi_cut -c -4 resources/sample.tsv
+Executing the command `nagi_cut -c -4 resources/sample.tsv`...
+Executing file: resources/sample.tsv
+f0	f
+0	1	
+5	6	
+10	1
+15	1
+20	2
+
+$ nagi_cut -c 2-9 resources/sample.tsv
+Executing the command `nagi_cut -c 2-9 resources/sample.tsv`...
+Executing file: resources/sample.tsv
+0	f1	f2	
+	1	2	3	4
+	6	7	8	9
+0	11	12	
+5	16	17	
+0	21	22	
+```
