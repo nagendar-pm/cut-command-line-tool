@@ -19,4 +19,5 @@ public interface CommonConstants {
 	String RANGE_SEPARATOR = ",";
 	int CHAR_HIGHER_ORDER_BITS = 0xC0;
 	int CHAR_INNER_BITS = 0x80;
+	int CHAR_SINGLE_BYTE = 0x80;
 }

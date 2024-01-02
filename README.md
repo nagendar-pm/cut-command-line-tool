@@ -68,3 +68,61 @@ as `Range`s.
 3. Ranges are resolved from the command by `RangeResolver` and are passed in the `ProcessedCommand` for the execution.
 
 ![Class diagram for Range](uml/Range.png "Class diagram of Range")
+
+## Sample Run
+### -b option
+```commandline
+$ nagi_cut -b 1-3 resources/test.txt
+Executing the command `nagi_cut -b 1-3 resources/test.txt`...
+Executing file: resources/test.txt
+ß�
+Ŏ�
+abc
+అ
+ioq
+
+$ nagi_cut -b 1,2,3 resources/test.txt
+Executing the command `nagi_cut -b 1,2,3 resources/test.txt`...
+Executing file: resources/test.txt
+ß�
+Ŏ�
+abc
+అ
+ioq
+
+$ nagi_cut -b 1- resources/test.txt
+Executing the command `nagi_cut -b 1- resources/test.txt`...
+Executing file: resources/test.txt
+ßßßß
+ŎŎŎ
+abc:def:ghi
+అఆఇఈ
+ioqpj
+
+$ nagi_cut -b -4 resources/test.txt
+Executing the command `nagi_cut -b -4 resources/test.txt`...
+Executing file: resources/test.txt
+ßß
+ŎŎ
+abc:
+అ�
+ioqp
+
+$ nagi_cut -b 1,2 -n resources/test.txt
+Executing the command `nagi_cut -b 1,2 -n resources/test.txt`...
+Executing file: resources/test.txt
+ß
+Ŏ
+ab
+�
+io
+
+$ nagi_cut -b 1,2,3 -n resources/test.txt
+Executing the command `nagi_cut -b 1,2,3 -n resources/test.txt`...
+Executing file: resources/test.txt
+ß
+Ŏ
+abc
+అ
+ioq
+```
