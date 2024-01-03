@@ -231,4 +231,15 @@ Executing the command `head -n 5 resources/temp.txt`...
 "20 Good Reasons",
 "Adore You",
 "Africa",
+
+$ nagi_cut -f 1 -s resources/fourchords.csv | head -n 5
+Executing the command `nagi_cut -f 1 -s resources/fourchords.csv`...
+Executing file: resources/fourchords.csv
+Executing the command `head -n 5 resources/temp.txt`...
+
+
+$ nagi_cut -d ' ' -f 1 -w resources/fourchords.csv | head -n 5
+Executing the command `nagi_cut -d ' ' -f 1 -w resources/fourchords.csv`...
+Executing file: resources/fourchords.csv
+Exception in thread "main" com.nagendar.learning.exceptions.IllegalFlagException: Expected either -d or -w, Found both
 ```
