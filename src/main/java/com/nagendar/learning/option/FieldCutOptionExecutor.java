@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 public class FieldCutOptionExecutor implements OptionExecutor {
 	private final PrinterFactory printerFactory;
@@ -53,7 +54,8 @@ public class FieldCutOptionExecutor implements OptionExecutor {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		// setting -w flag
-		if (processedCommand.getDelimiter().isEmpty()) {
+		if (Objects.isNull(processedCommand.getDelimiter())
+			|| processedCommand.getDelimiter().isEmpty()) {
 			if (processedCommand.getFlags().contains(
 					Flag.FLAG_WHITESPACE_DELIMITER)) {
 				processedCommand.setDelimiter(" ");

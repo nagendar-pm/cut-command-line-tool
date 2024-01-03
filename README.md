@@ -189,3 +189,46 @@ Executing file: resources/sample.tsv
 5	16	17	
 0	21	22	
 ```
+
+### -f option
+```commandline
+$ nagi_cut -f 1,2 resources/fourchords.csv | head -n 5
+Executing the command `nagi_cut -f 1,2 resources/fourchords.csv`...
+Executing file: resources/fourchords.csv
+Executing the command `head -n 5 resources/temp.txt`...
+﻿Song title,Artist,Year,Progression,Recorded Key	
+"10000 Reasons (Bless the Lord)",Matt Redman and Jonas Myrin,2012,IV–I–V–vi,G major	
+"20 Good Reasons",Thirsty Merc,2007,I–V–vi–IV,D♭ major	
+"Adore You",Harry Styles,2019,vi−I−IV−V,C minor	
+"Africa",Toto,1982,vi−IV–I–V (chorus),F♯ minor (chorus)	
+
+$ nagi_cut -d ',' -f 1,2 resources/fourchords.csv | head -n 5
+Executing the command `nagi_cut -d ',' -f 1,2 resources/fourchords.csv`...
+Executing file: resources/fourchords.csv
+Executing the command `head -n 5 resources/temp.txt`...
+﻿Song title,Artist,
+"10000 Reasons (Bless the Lord)",Matt Redman and Jonas Myrin,
+"20 Good Reasons",Thirsty Merc,
+"Adore You",Harry Styles,
+"Africa",Toto,
+
+$ nagi_cut -d, -f 1,3 resources/fourchords.csv | head -n 5
+Executing the command `nagi_cut -d, -f 1,3 resources/fourchords.csv`...
+Executing file: resources/fourchords.csv
+Executing the command `head -n 5 resources/temp.txt`...
+﻿Song title,Year,
+"10000 Reasons (Bless the Lord)",2012,
+"20 Good Reasons",2007,
+"Adore You",2019,
+"Africa",1982,
+
+$ nagi_cut -d , -f 1 resources/fourchords.csv | head -n 5
+Executing the command `nagi_cut -d , -f 1 resources/fourchords.csv`...
+Executing file: resources/fourchords.csv
+Executing the command `head -n 5 resources/temp.txt`...
+﻿Song title,
+"10000 Reasons (Bless the Lord)",
+"20 Good Reasons",
+"Adore You",
+"Africa",
+```
