@@ -1,0 +1,23 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Range {
+    - int from
+    - int to
+}
+
+interface RangeResolver {
+	+ List<Range> parseRanges(String rangesString)
+	+ List<Range> mergeOverlappingRanges(List<Range> ranges)
+	- Range getOverlappedRange(Range range1, Range range2)
+	- Range getImmediateRanges(Range range1, Range range2)
+}
+
+class InputCommandToProcessedCommandMapper {
+    - RangeResolver rangeResolver
+    + ProcessedCommand map(InputCommand inputCommand)
+}
+
+RangeResolver *-- Range
+InputCommandToProcessedCommandMapper *-- RangeResolver
+@enduml

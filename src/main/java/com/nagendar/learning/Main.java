@@ -31,8 +31,10 @@ public class Main {
 		CommandModeFactory commandModeFactory = new CommandModeFactory(commandProcessorService);
 		final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		while (true) {
+			System.out.print("$ ");
 			final String input = reader.readLine();
 			commandModeFactory.getCommandMode(input).process(input);
+			System.out.println();
 		}
 	}
 }

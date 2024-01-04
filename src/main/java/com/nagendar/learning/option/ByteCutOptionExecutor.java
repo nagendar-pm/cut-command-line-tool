@@ -19,8 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-import static com.nagendar.learning.constants.CommonConstants.CHAR_HIGHER_ORDER_BITS;
-import static com.nagendar.learning.constants.CommonConstants.CHAR_INNER_BITS;
+import static com.nagendar.learning.constants.CommonConstants.*;
 
 public class ByteCutOptionExecutor implements OptionExecutor {
 	private final PrinterFactory printerFactory;
@@ -76,9 +75,14 @@ public class ByteCutOptionExecutor implements OptionExecutor {
 		 In UTF-8, the high-order bits for the start of a character are 110 for two-byte characters,
 		 1110 for three-byte characters, and 11110 for four-byte characters.
 
+		 The condition (b & 0x80) == 0 checks if the high-order bit is 0, indicating a single-byte character.
+
 		 The expression (b & 0xC0) != 0x80 checks that the byte does not match the bit pattern 10xxxxxx,
 		 which indicates an interior byte in a multi-byte sequence.
 		 */
+		if (index >= 0 && (bytes[index] & CHAR_SINGLE_BYTE) == 0) {
+			return index;
+		}
 		while (index >= 0 && (bytes[index] & CHAR_HIGHER_ORDER_BITS) != CHAR_INNER_BITS) {
 			index--;
 		}
