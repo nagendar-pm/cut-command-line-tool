@@ -243,3 +243,33 @@ Executing the command `nagi_cut -d ' ' -f 1 -w resources/fourchords.csv`...
 Executing file: resources/fourchords.csv
 Exception in thread "main" com.nagendar.learning.exceptions.IllegalFlagException: Expected either -d or -w, Found both
 ```
+
+## Benchmarks
+- The tool can parse and work on files up to size `1+GB` efficiently.
+- Takes `1876.758 ms/op` per operation, printing two fields of the csv line. Here the CSV contains 2000000 (2Million) rows
+
+### With Sample.tsv 80Bytes
+```commandline
+Result "com.nagendar.learning.Main.testParseAndFormat":
+  0.108 ±(99.9%) 0.007 ms/op [Average]
+  (min, avg, max) = (0.105, 0.108, 0.111), stdev = 0.002
+  CI (99.9%): [0.101, 0.115] (assumes normal distribution)
+
+# Run complete. Total time: 00:01:41
+
+Benchmark                Mode  Cnt  Score   Error  Units
+Main.testParseAndFormat  avgt    5  0.108 ± 0.007  ms/op
+```
+
+### With 2000000_lines.tsv 224MB
+```commandline
+Result "com.nagendar.learning.Main.testParseAndFormat":
+  1876.758 ±(99.9%) 116.813 ms/op [Average]
+  (min, avg, max) = (1829.480, 1876.758, 1908.463), stdev = 30.336
+  CI (99.9%): [1759.945, 1993.571] (assumes normal distribution)
+
+# Run complete. Total time: 00:01:52
+
+Benchmark                Mode  Cnt     Score     Error  Units
+Main.testParseAndFormat  avgt    5  1876.758 ± 116.813  ms/op
+```
